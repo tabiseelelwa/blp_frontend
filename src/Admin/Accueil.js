@@ -6,24 +6,24 @@ import { Link } from "react-router-dom";
 const AccueilAdmin = () => {
   const [article, setArticle] = useState([]);
   const [nombre, setNobre] = useState();
-  const lien = "https://fizitech.org";
+  const backend = "http://localhost:8085";
   useEffect(() => {
     axios
-      .get(`${lien}/nombre_articles`)
+      .get(`${backend}/nombre_articles`)
       .then((res) => setNobre(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
     axios
-      .get(`${lien}/listArticles`)
+      .get(`${backend}/listArticles`)
       .then((res) => setArticle(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const supprimer = (idArticle) => {
     axios
-      .delete(`${lien}/supprArticle/` + idArticle)
+      .delete(`${backend}/supprArticle/` + idArticle)
       .then((res) => {
         console.log(res);
         window.location.reload();

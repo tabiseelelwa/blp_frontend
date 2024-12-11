@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 const Details = () => {
-  const lien = "https://fizitech.org";
+  const backend = "http://localhost:8085";
   const { idArticle } = useParams();
   const [values, setValues] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${lien}/post/${idArticle}`)
+      .get(`${backend}/post/${idArticle}`)
       .then((res) => {
         setValues(res.data[0]);
       })
@@ -18,7 +18,7 @@ const Details = () => {
   return (
     <div className="Details">
       <div className="contenu">
-        <img src={`${lien}/images-article/${values.imageArticle}`} alt="" />
+        <img src={`${backend}/images-article/${values.imageArticle}`} alt="" />
         <h3>{values.titreArticle}</h3>
         <div dangerouslySetInnerHTML={{ __html: values.contenu }} />
       </div>
@@ -26,9 +26,8 @@ const Details = () => {
         <img src="../Img/LOGO2FZT.png" alt="" />
         <div className="info">
           <span>
-            Par <strong>{values.User}</strong>{" "}
+            Rédigé par <strong>{values.User}</strong>, le {values.dateCreation}
           </span>
-          <p>{values.dateCreation}</p>
         </div>
       </div>
     </div>

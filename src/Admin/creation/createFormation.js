@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 
 const CreateFormation = () => {
   const navigate = useNavigate();
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const [image, setImage] = useState("");
   const [intitule, setIntitule] = useState("");
   const [description, setDescription] = useState("");
@@ -19,7 +19,7 @@ const CreateFormation = () => {
     formdata.append("intitule", intitule);
     formdata.append("description", description);
     axios
-      .post(`${lien}/enregFormation`, formdata)
+      .post(`${backend}/enregFormation`, formdata)
       .then((res) => {
         console.log(res);
         navigate("/admin/formations");

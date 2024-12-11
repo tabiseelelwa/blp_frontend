@@ -5,18 +5,19 @@ import { A11y, Autoplay } from "swiper/modules";
 import axios from "axios";
 
 const Accueil = () => {
-  const lien = "https://fizitech.org";
+  const backend = "http://localhost:8085";
 
   const [article, setArticle] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${lien}/articles`)
+      .get(`${backend}/articles`)
       .then((res) => setArticle(res.data))
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   return (
     <div className="Accueil">
       <Swiper
@@ -157,10 +158,10 @@ const Accueil = () => {
           {article.map((art, i) => {
             return (
               <article key={i}>
-                <Link to={`/article/${art.idArticle}`}>
+                <Link to={`${backend}/article/${art.idArticle}`}>
                   <div className="img_article">
                     <img
-                      src={`${lien}/images-article/${art.imageArticle}`}
+                      src={`${backend}/images-article/${art.imageArticle}`}
                       alt=""
                     />
                   </div>

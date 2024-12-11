@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css";
 const ModifAbout = () => {
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const enregArticle = (e) => {
     e.preventDefault();
 
@@ -16,7 +16,7 @@ const ModifAbout = () => {
     formdata.append("description", description);
 
     axios
-      .post(`${lien}/create-article`, formdata)
+      .post(`${backend}/create-article`, formdata)
       .then((res) => {
         console.log(res.data);
         navigate("/about");

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,13 +10,13 @@ const Login = () => {
     password: "",
   });
 
-  const lien = "https://fizitech.org";
+  const backend = "http://localhost:8085";
 
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     axios
-      .get(`${lien}/connexion`)
+      .get(`${backend}/connexion`)
       .then((res) => {
         if (res.data.valid) {
           navigate("/admin");
@@ -28,7 +29,7 @@ const Login = () => {
 
   const connexion = (e) => {
     e.preventDefault();
-    axios.post(`${lien}/login`, value).then((res) => {
+    axios.post(`${backend}/login`, value).then((res) => {
       if (res.data.Login) {
         navigate("/admin");
         console.log(`"Vous êtes connecté !!"`);

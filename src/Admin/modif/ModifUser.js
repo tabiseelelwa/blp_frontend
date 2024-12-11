@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const ModifUser = () => {
   const { idUser } = useParams();
   const navigate = useNavigate();
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const [values, setValues] = useState({
     nom: "",
     postnom: "",
@@ -16,7 +16,7 @@ const ModifUser = () => {
 
   useEffect(() => {
     axios
-      .get(`${lien}/user/${idUser}`)
+      .get(`${backend}/user/${idUser}`)
       .then((res) => {
         setValues({
           ...values,
@@ -32,7 +32,7 @@ const ModifUser = () => {
   const modifUser = (e) => {
     e.preventDefault();
     axios
-      .put(`${lien}/modifUser/${idUser}`, values)
+      .put(`${backend}/modifUser/${idUser}`, values)
       .then((res) => {
         console.log(res);
         navigate("/admin/list-users");

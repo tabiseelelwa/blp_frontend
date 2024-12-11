@@ -8,14 +8,14 @@ import "react-quill/dist/quill.snow.css";
 const CreateAbout = () => {
   const navigate = useNavigate();
   const [contenu, setContenu] = useState("");
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const enregArticle = (e) => {
     e.preventDefault();
 
     const formdata = new FormData();
     formdata.append("descr", contenu);
     axios
-      .post(`${lien}/about-creat`, formdata)
+      .post(`${backend}/about-creat`, formdata)
       .then((res) => {
         console.log(res.data);
         console.log(contenu);

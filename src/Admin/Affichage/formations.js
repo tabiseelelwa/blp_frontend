@@ -6,18 +6,18 @@ import { Link } from "react-router-dom";
 const AdminListFormation = () => {
   const [user, setUser] = useState([]);
 
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
 
   useEffect(() => {
     axios
-      .get(`${lien}/formations`)
+      .get(`${backend}/formations`)
       .then((res) => setUser(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const supprimer = (idFormation) => {
     axios
-      .delete(`${lien}/supprUser/` + idFormation)
+      .delete(`${backend}/supprUser/` + idFormation)
       .then((res) => {
         console.log(res);
         window.location.reload();
@@ -77,7 +77,7 @@ const AdminListFormation = () => {
                     <tr key={i}>
                       <td className="photo-profil">
                         <img
-                          src={`${lien}/images-formations/${use.imageFormation}`}
+                          src={`${backend}/images-formations/${use.imageFormation}`}
                           alt=""
                         />
                       </td>

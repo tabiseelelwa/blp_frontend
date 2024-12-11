@@ -7,7 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const Article = () => {
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
 
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const Article = () => {
     formdata.append("contenu", contenu);
 
     axios
-      .post(`${lien}/create-article`, formdata)
+      .post(`${backend}/create-article`, formdata)
       .then((res) => {
         console.log(res.data);
         navigate("/admin");
@@ -38,7 +38,7 @@ const Article = () => {
 
   useEffect(() => {
     axios
-      .get(`${lien}/categories`)
+      .get(`${backend}/categories`)
       .then((res) => setCategorie(res.data))
       .catch((err) => console.log(err));
   }, []);

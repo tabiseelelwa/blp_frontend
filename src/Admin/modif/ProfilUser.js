@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ProfilUser = () => {
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
 
   const navigate = useNavigate();
   const { idUser } = useParams();
@@ -14,7 +14,7 @@ const ProfilUser = () => {
   });
 
   useEffect(() => {
-    axios.get(`${lien}/user/${idUser}`).then((res) => setUser(res.data[0]));
+    axios.get(`${backend}/user/${idUser}`).then((res) => setUser(res.data[0]));
   }, []);
 
   const photoUser = (e) => {
@@ -22,7 +22,7 @@ const ProfilUser = () => {
     const formdata = new FormData();
     formdata.append("photo", fichier);
     axios
-      .put(`${lien}/photo-user/${idUser}`, formdata)
+      .put(`${backend}/photo-user/${idUser}`, formdata)
       .then((res) => {
         console.log(res);
         navigate("/admin/list-users");
@@ -36,7 +36,7 @@ const ProfilUser = () => {
       <form onSubmit={photoUser}>
         <img
           style={{ height: "500px", width: "75%", marginBottom: "1rem" }}
-          src={`${lien}/profil/${user.imageUser}`}
+          src={`${backend}/profil/${user.imageUser}`}
           alt=""
         />
         <input type="file" onChange={(e) => setFichier(e.target.files[0])} />

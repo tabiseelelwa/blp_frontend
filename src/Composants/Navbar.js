@@ -9,7 +9,7 @@ const Navbar = () => {
   );
 
   const closeNav = () => {
-    if (window.innerWidth <= 800) {
+    if (navActif === true) {
       setNavActif(false);
     } else {
       setNavActif(true);

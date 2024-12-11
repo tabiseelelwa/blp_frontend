@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Users = () => {
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
 
   const [user, setUser] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${lien}/listUsers`)
+      .get(`${backend}/listUsers`)
       .then((res) => setUser(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const supprimer = (idUser) => {
     axios
-      .delete(`${lien}/supprUser/` + idUser)
+      .delete(`${backend}/supprUser/` + idUser)
       .then((res) => {
         console.log(res);
         window.location.reload();
@@ -105,7 +105,7 @@ const Users = () => {
                     <tr key={i}>
                       <td className="photo-profil">
                         <img
-                          src={`${lien}/profil-users/${use.imageUser}`}
+                          src={`${backend}/profil-users/${use.imageUser}`}
                           alt=""
                         />
                       </td>

@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const DetailsFormation = () => {
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const { idFormation } = useParams();
   const [formation, setFormation] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${lien}/formation/${idFormation}`)
+      .get(`${backend}/formation/${idFormation}`)
       .then((res) => {
         setFormation(res.data[0]);
       })
@@ -20,7 +20,7 @@ const DetailsFormation = () => {
     <div className="Details">
       <div className="contenu">
         <img
-          src={`${lien}/images-formations/${formation.imageFormation}`}
+          src={`${backend}/images-formations/${formation.imageFormation}`}
           alt=""
         />
         <h3>{formation.intituleFormation}</h3>

@@ -3,8 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreatUser = () => {
-
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const navigate = useNavigate();
   const [values, setValues] = useState({
     nom: "",
@@ -17,7 +16,7 @@ const CreatUser = () => {
   const enregUser = (e) => {
     e.preventDefault();
     axios
-      .post(`${lien}/enregUser`, values)
+      .post(`${backend}/enregUser`, values)
       .then((res) => {
         console.log(res);
         navigate("/admin/list-users");

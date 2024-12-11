@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ModifArticle = () => {
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
 
   const { idArticle } = useParams();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const ModifArticle = () => {
 
   useEffect(() => {
     axios
-      .get(`${lien}/post/${idArticle}`)
+      .get(`${backend}/post/${idArticle}`)
       .then(
         (ti) => setTitre(ti.data[0].titreArticle),
         (ca) => setCat(ca.data[0].Categorie),
@@ -35,7 +35,7 @@ const ModifArticle = () => {
 
   useEffect(() => {
     axios
-      .get(`${lien}/categories`)
+      .get(`${backend}/categories`)
       .then((res) => setCategories(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -44,7 +44,7 @@ const ModifArticle = () => {
     e.preventDefault();
 
     axios
-      .put(`${lien}/modifArticle/${idArticle}`, values)
+      .put(`${backend}/modifArticle/${idArticle}`, values)
       .then((res) => {
         console.log(res);
         navigate("/admin");

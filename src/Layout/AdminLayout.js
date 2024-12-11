@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "../Admin/SideBar";
@@ -9,7 +10,7 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
-  const lien = "https://fizitech.org";
+  const backend = "http://localhost:8085";
 
   const [nom, setNom] = useState("");
 
@@ -18,7 +19,7 @@ const AdminLayout = () => {
 
   useEffect(() => {
     axios
-      .get(`${lien}/connexion`)
+      .get(`${backend}/connexion`)
       .then((res) => {
         if (res.data.valid) {
           setNom(res.data.nomUser);

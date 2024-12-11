@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Posts() {
-  const lien = "https://fizitech.org";
+  const backend = "http://localhost:8085";
   const [article, setArticle] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`${lien}/listArticles`)
+      .get(`${backend}/listArticles`)
       .then((res) => setArticle(res.data))
       .catch((err) => {
         console.log(err);
@@ -17,12 +17,12 @@ export default function Posts() {
 
   // PAGINATION
   const [currentPage, setCurrentpage] = useState(1);
-
   const enregParPage = 6;
   const lastIndex = currentPage * enregParPage;
   const firstIndex = lastIndex - enregParPage;
   const donnees = article.slice(firstIndex, lastIndex);
   const nbrPage = Math.ceil(article.length / enregParPage);
+
   return (
     <div>
       <div className="actualites">
@@ -34,7 +34,7 @@ export default function Posts() {
                 <Link to={`/article/${art.idArticle}`}>
                   <div className="img_article">
                     <img
-                      src={`${lien}/images-article/${art.imageArticle}`}
+                      src={`${backend}/images-article/${art.imageArticle}`}
                       alt=""
                     />
                   </div>
@@ -72,6 +72,7 @@ export default function Posts() {
           })}
         </div>
       </div>
+
       <div className="controls_post">
         <button onClick={precedent}>
           {nbrPage <= 1

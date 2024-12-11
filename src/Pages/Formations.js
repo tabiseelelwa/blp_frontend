@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 const Formations = () => {
-  const lien = "https://fizitech.org";
+  const backend = "https://fizitech.org";
   const [formations, setFormations] = useState([]);
   useEffect(() => {
     axios
-      .get(`${lien}/formations`)
+      .get(`${backend}/formations`)
       .then((res) => {
         setFormations(res.data);
       })
@@ -24,7 +24,7 @@ const Formations = () => {
               <Link to={`/detailsform/${form.idFormation}`}>
                 <div className="image_categ_formation">
                   <img
-                    src={`${lien}/images-formations/${form.imageFormation}`}
+                    src={`${backend}/images-formations/${form.imageFormation}`}
                     alt=""
                   />
                 </div>
