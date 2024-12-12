@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 const Details = () => {
-  const backend = "http://localhost:8085";
+  const backend = "https://backend.fizitech.org";
   const { idArticle } = useParams();
   const [values, setValues] = useState([]);
 

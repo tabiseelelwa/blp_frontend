@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Posts() {
-  const backend = "http://localhost:8085";
+  const backend = "https://backend.fizitech.org";
   const [article, setArticle] = useState([]);
 
   useEffect(() => {

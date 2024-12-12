@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css";
 const CreateAbout = () => {
   const navigate = useNavigate();
   const [contenu, setContenu] = useState("");
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
   const enregArticle = (e) => {
     e.preventDefault();
 

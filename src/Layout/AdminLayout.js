@@ -10,7 +10,7 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
 
-  const backend = "http://localhost:8085";
+  const backend = "https://backend.fizitech.org";
 
   const [nom, setNom] = useState("");
 

@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 
 const CreateFormation = () => {
   const navigate = useNavigate();
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
   const [image, setImage] = useState("");
   const [intitule, setIntitule] = useState("");
   const [description, setDescription] = useState("");

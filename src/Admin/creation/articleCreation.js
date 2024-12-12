@@ -7,7 +7,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const Article = () => {
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
 
   const navigate = useNavigate();
 

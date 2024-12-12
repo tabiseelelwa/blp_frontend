@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 const PhotoArticle = () => {
   const { idArticle } = useParams();
   const [fichier, setFichier] = useState();
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
   const [article, setArticle] = useState({
     titre: "",
   });

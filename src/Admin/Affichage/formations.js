@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const AdminListFormation = () => {
   const [user, setUser] = useState([]);
 
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
 
   useEffect(() => {
     axios

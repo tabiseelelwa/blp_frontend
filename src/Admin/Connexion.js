@@ -10,7 +10,7 @@ const Login = () => {
     password: "",
   });
 
-  const backend = "http://localhost:8085";
+  const backend = "https://backend.fizitech.org";
 
   axios.defaults.withCredentials = true;
 

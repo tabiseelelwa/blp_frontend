@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const AccueilAdmin = () => {
   const [article, setArticle] = useState([]);
   const [nombre, setNobre] = useState();
-  const backend = "http://localhost:8085";
+  const backend = "https://backend.fizitech.org";
   useEffect(() => {
     axios
       .get(`${backend}/nombre_articles`)

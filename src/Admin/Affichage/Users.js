@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Users = () => {
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
 
   const [user, setUser] = useState([]);
 

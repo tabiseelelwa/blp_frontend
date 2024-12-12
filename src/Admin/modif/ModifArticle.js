@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const ModifArticle = () => {
-  const backend = "https://fizitech.org";
+  const backend = "https://backend.fizitech.org";
 
   const { idArticle } = useParams();
   const navigate = useNavigate();
