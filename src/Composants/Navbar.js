@@ -1,9 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+// import { backend } from "./backend";
+// import axios from "axios";
 
 const Navbar = () => {
+  // const [affichNav, setAffichNav] = useState(false);
+
   const [navActif, setNavActif] = useState(
     window.innerWidth >= 800 ? true : false
   );
@@ -17,6 +22,20 @@ const Navbar = () => {
       }
     }
   };
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${backend}/authentification`)
+  //     .then((res) => {
+  //       if (res.data.valid) {
+  //         setAffichNav(true);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
   return (
     <nav>
       <div className="navbar">
@@ -27,18 +46,20 @@ const Navbar = () => {
         </div>
         {navActif ? (
           <div className="menu">
+            {/* {affichNav ? (
+              <NavLink
+                onClick={closeNav}
+                className="el-menu"
+                to="/article-creation"
+              >
+                Nouvel article
+              </NavLink>
+            ) : null} */}
             <NavLink onClick={closeNav} className="el-menu" to="/formations">
               Nos formations
             </NavLink>
             <NavLink onClick={closeNav} className="el-menu" to="/a-propos">
               FiziTech Academy
-            </NavLink>
-            <NavLink
-              onClick={closeNav}
-              className="el-menu bouton__con"
-              to="/admin"
-            >
-              Connexion
             </NavLink>
           </div>
         ) : null}

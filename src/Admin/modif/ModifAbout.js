@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css";
 const ModifAbout = () => {
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
-  const backend = "https://backend.fizitech.org";
+  const backend = "http://localhost:8085";
   const enregArticle = (e) => {
     e.preventDefault();
 

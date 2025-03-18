@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { backend } from "../Composants/backend";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,13 +11,11 @@ const Login = () => {
     password: "",
   });
 
-  const backend = "https://backend.fizitech.org";
-
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
     axios
-      .get(`${backend}/connexion`)
+      .get(`${backend}/authentification`)
       .then((res) => {
         if (res.data.valid) {
           navigate("/admin");
@@ -31,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     axios.post(`${backend}/login`, value).then((res) => {
       if (res.data.Login) {
-        navigate("/admin");
+        navigate("/");
         console.log(`"Vous êtes connecté !!"`);
       } else {
         alert("Mot de passe incorrect");

@@ -1,32 +1,37 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { useParams } from "react-router-dom";
+import { detailsArticle } from "../api/articles";
 const Details = () => {
-  const backend = "https://backend.fizitech.org";
+  const backend = "http://localhost:8085";
   const { idArticle } = useParams();
-  const [values, setValues] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(`${backend}/post/${idArticle}`)
-      .then((res) => {
-        setValues(res.data[0]);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const {
+    data: article,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["articles"],
+    queryFn: () => detailsArticle(idArticle),
+  });
+
+  if (isLoading) return <div>Chargement</div>;
+  if (error) return <div>Erreur de chargement des données</div>;
 
   return (
     <div className="Details">
       <div className="contenu">
-        <img src={`${backend}/images-article/${values.imageArticle}`} alt="" />
-        <h3>{values.titreArticle}</h3>
-        <div dangerouslySetInnerHTML={{ __html: values.contenu }} />
+        <img src={`${backend}/images-article/${article.imageArticle}`} alt="" />
+        <h3>{article.titreArticle}</h3>
+        <div dangerouslySetInnerHTML={{ __html: article.contenu }} />
       </div>
       <div className="user">
         <img src="../Img/LOGO2FZT.png" alt="" />
         <div className="info">
           <span>
-            Rédigé par <strong>{values.User}</strong>, le {values.dateCreation}
+            Rédigé par <strong>{article.User}</strong>, le{" "}
+            {article.dateCreation}
           </span>
         </div>
       </div>

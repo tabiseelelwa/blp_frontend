@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const ModifUser = () => {
   const { idUser } = useParams();
   const navigate = useNavigate();
-  const backend = "https://backend.fizitech.org";
+  const backend = "http://localhost:8085";
   const [values, setValues] = useState({
     nom: "",
     postnom: "",

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreatUser = () => {
-  const backend = "https://backend.fizitech.org";
+  const backend = "http://localhost:8085";
   const navigate = useNavigate();
   const [values, setValues] = useState({
     nom: "",

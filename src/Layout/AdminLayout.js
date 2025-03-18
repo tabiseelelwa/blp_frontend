@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "../Admin/SideBar";
 import axios from "axios";
+import { backend } from "../Composants/backend";
 
 // AFFICHAGE DE L'ADMINISTRATEUR
 
 const AdminLayout = () => {
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
 
-  const backend = "https://backend.fizitech.org";
+  axios.defaults.withCredentials = true;
 
   const [nom, setNom] = useState("");
 
@@ -19,11 +19,10 @@ const AdminLayout = () => {
 
   useEffect(() => {
     axios
-      .get(`${backend}/connexion`)
+      .get(`${backend}/authentification`)
       .then((res) => {
         if (res.data.valid) {
           setNom(res.data.nomUser);
-          console.log(res.data.nomUser);
         } else {
           navigate("/login");
         }

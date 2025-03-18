@@ -219,7 +219,7 @@ main {
     padding-bottom: 2rem;
 
     article {
-      width: 360px;
+      width: 340px;
       border-radius: 0.5rem;
       background-color: #fff;
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -228,7 +228,7 @@ main {
         img {
           width: 100%;
           height: 250px;
-
+          border-bottom: #ccc 1px solid;
           border-top-left-radius: 0.5rem;
           border-top-right-radius: 0.5rem;
         }
@@ -348,11 +348,17 @@ main {
 // CREATION ARTICLE -- PAGE DE REDACTION
 
 .redaction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem 0;
+
   form {
     width: 750px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     font-size: 18px;
 
     input,
@@ -364,11 +370,11 @@ main {
     }
 
     .contenu {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .about {
-      height: 150px;
+      height: 140px;
     }
 
     button {
@@ -429,7 +435,7 @@ main {
 
   .formations {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 2rem;
     justify-content: space-between;
     align-items: center;
@@ -440,14 +446,18 @@ main {
       flex-direction: column;
       justify-content: center;
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      padding: 0.5rem 1rem;
+      // padding: 0.3rem;
       border-radius: 0.7rem;
-      text-align: justify;
-      // height: 120px;
-
+      width: 100%;
+      height: 400px;
       h6 {
         font-weight: 800;
         color: #3b5bb1;
+      }
+
+      .categorie_formation,
+      .texte_formation {
+        padding: 0 0.5rem;
       }
     }
 

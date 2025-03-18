@@ -1,47 +1,47 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+// import { isEmpty } from "../../Composants/testVide";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createArticle } from "../../api/articles";
 
 const Article = () => {
-  const backend = "https://backend.fizitech.org";
-
   const navigate = useNavigate();
-
-  const [categories, setCategorie] = useState([]);
+  const queryClient = useQueryClient();
 
   const [fichier, setFichier] = useState("");
   const [titre, setTitre] = useState("");
-  const [cat, setCat] = useState("");
+  const [categorie, setCat] = useState("");
   const [contenu, setContenu] = useState("");
 
+  const values = new FormData();
+  values.append("image", fichier);
+  values.append("titre", titre);
+  values.append("contenu", contenu);
+  values.append("categorie", categorie);
+
+  const mutationArticle = useMutation({
+    mutationFn: (article) => {
+      return createArticle(article);
+    },
+
+    onError: (err) => {
+      console.error(err);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries("articles");
+      console.log("Enregistrement effectué avec succès...!");
+    },
+  });
   const enregArticle = (e) => {
     e.preventDefault();
-
-    const formdata = new FormData();
-    formdata.append("image", fichier);
-    formdata.append("titre", titre);
-    formdata.append("categorie", cat);
-    formdata.append("contenu", contenu);
-
-    axios
-      .post(`${backend}/create-article`, formdata)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/admin");
-      })
-      .catch((err) => console.log(err));
+    mutationArticle.mutate(values);
+    navigate("/admin");
   };
-
-  useEffect(() => {
-    axios
-      .get(`${backend}/categories`)
-      .then((res) => setCategorie(res.data))
-      .catch((err) => console.log(err));
-  }, []);
 
   const module = {
     toolbar: [
@@ -61,7 +61,7 @@ const Article = () => {
   };
 
   return (
-    <div className="element_admin redaction ">
+    <div className="redaction">
       <form onSubmit={enregArticle}>
         <h3>Création nouvel article</h3>
         <input type="file" onChange={(e) => setFichier(e.target.files[0])} />
@@ -72,17 +72,19 @@ const Article = () => {
         />
         <select onChange={(e) => setCat(e.target.value)}>
           <option>-- Choisir une catégorie --</option>
-          {categories.map((cat, i) => (
-            <option value={cat.designCateg} key={i}>
-              {cat.designCateg}
-            </option>
-          ))}
+          {/* {!isEmpty(categ) &&
+            categ.map((cat, i) => (
+              <option value={cat.designCateg} key={i}>
+                {cat.designCateg}
+              </option>
+            ))} */}
         </select>
 
         <ReactQuill
           theme="snow"
           className="contenu about"
           modules={module}
+          value={contenu}
           onChange={setContenu}
         />
         <button>Publier</button>

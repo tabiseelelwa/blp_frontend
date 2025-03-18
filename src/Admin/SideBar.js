@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function SideBar() {
   const navigate = useNavigate();
-  const backend = "https://backend.fizitech.org";
+  const backend = "http://localhost:8085";
 
   const deconnexion = (e) => {
     e.preventDefault();

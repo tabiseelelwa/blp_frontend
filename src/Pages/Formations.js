@@ -1,58 +1,64 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { backend } from "../Composants/backend";
+import { isEmpty } from "../Composants/testVide";
+import { useQuery } from "@tanstack/react-query";
+import { listFormations } from "../api/formations";
+
 const Formations = () => {
-  const backend = "https://backend.fizitech.org";
-  const [formations, setFormations] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`${backend}/formations`)
-      .then((res) => {
-        setFormations(res.data);
-      })
-      .catch((err) => console.log(err));
+  const {
+    data: formations,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["formations"],
+    queryFn: listFormations,
   });
+
+  if (isLoading) return <div>Chargement</div>;
+  if (error) return <div>Erreur de chargement des données</div>;
+
   return (
     <div className="formation">
       <div className="head">
         <h3>Nos formations</h3>
       </div>
       <div className="formations">
-        {formations.map((form, i) => {
-          return (
-            <article key={i}>
-              <Link to={`/detailsform/${form.idFormation}`}>
-                <div className="image_categ_formation">
-                  <img
-                    src={`${backend}/images-formations/${form.imageFormation}`}
-                    alt=""
-                  />
-                </div>
-                <div className="categorie_formation">
-                  <h6>{form.intituleFormation}</h6>
-                </div>
-                <div className="texte_formation">
-                  <p>
-                    {form.descriptFormation.length > 60 ? (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            form.descriptFormation.substring(0, 60) + "...",
-                        }}
-                      />
-                    ) : (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: form.descriptFormation,
-                        }}
-                      />
-                    )}
-                  </p>
-                </div>
-              </Link>
-            </article>
-          );
-        })}
+        {!isEmpty(formations) &&
+          formations.map((form, i) => {
+            return (
+              <article key={i}>
+                <Link to={`/detailsform/${form.idFormation}`}>
+                  <div className="image_categ_formation">
+                    <img
+                      src={`${backend}/images-formations/${form.imageFormation}`}
+                      alt=""
+                    />
+                  </div>
+                  <div className="categorie_formation">
+                    <h6>{form.intituleFormation}</h6>
+                  </div>
+                  <div className="texte_formation">
+                    <div>
+                      {form.descriptFormation.length > 50 ? (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              form.descriptFormation.substring(0, 50) + "...",
+                          }}
+                        />
+                      ) : (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: form.descriptFormation,
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </article>
+            );
+          })}
       </div>
     </div>
   );

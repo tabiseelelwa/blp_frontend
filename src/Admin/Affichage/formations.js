@@ -1,19 +1,12 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaCamera, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { listFormations } from "../../api/formations";
 
 const AdminListFormation = () => {
-  const [user, setUser] = useState([]);
-
-  const backend = "https://backend.fizitech.org";
-
-  useEffect(() => {
-    axios
-      .get(`${backend}/formations`)
-      .then((res) => setUser(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+  const backend = "http://localhost:8085";
 
   const supprimer = (idFormation) => {
     axios
@@ -25,15 +18,17 @@ const AdminListFormation = () => {
       .catch((err) => console.log(err));
   };
 
-  // PAGINATION
+  const {
+    data: formations,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["formations"],
+    queryFn: listFormations,
+  });
 
-  const [currentPage, setCurrentpage] = useState(1);
-
-  const enregParPage = 5;
-  const lastIndex = currentPage * enregParPage;
-  const firstIndex = lastIndex - enregParPage;
-  const donnees = user.slice(firstIndex, lastIndex);
-  const nbrPage = Math.ceil(user.length / enregParPage);
+  if (isLoading) return <div>Chargement en cours</div>;
+  if (isError) return <div>Erreur de chargement de données.....</div>;
 
   return (
     <div className="outlet">
@@ -67,12 +62,12 @@ const AdminListFormation = () => {
               </tr>
             </thead>
             <tbody>
-              {donnees.length === 0 ? (
+              {formations.length === 0 ? (
                 <tr>
                   <td colSpan={7}> Aucune formation trouvée !! </td>
                 </tr>
               ) : (
-                donnees.map((use, i) => {
+                formations.map((use, i) => {
                   return (
                     <tr key={i}>
                       <td className="photo-profil">
@@ -106,35 +101,10 @@ const AdminListFormation = () => {
               )}
             </tbody>
           </table>
-          <div className="controls">
-            <button onClick={precedent}>
-              {nbrPage <= 1
-                ? ""
-                : currentPage > 1 && nbrPage > 1
-                ? "Précédent"
-                : ""}
-            </button>
-            <span>{nbrPage <= 1 ? "" : currentPage + " sur " + nbrPage}</span>
-            <button onClick={suivant}>
-              {currentPage >= nbrPage ? "" : "Suivant"}
-            </button>
-          </div>
         </div>
       </div>
     </div>
   );
-
-  function precedent() {
-    if (currentPage !== 1) {
-      setCurrentpage(currentPage - 1);
-    }
-  }
-
-  function suivant() {
-    if (currentPage !== nbrPage) {
-      setCurrentpage(currentPage + 1);
-    }
-  }
 };
 
 export default AdminListFormation;

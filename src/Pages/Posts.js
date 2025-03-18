@@ -1,75 +1,31 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { isEmpty } from "../Composants/testVide";
+import Articles from "./Articles";
 
-export default function Posts() {
-  const backend = "https://backend.fizitech.org";
-  const [article, setArticle] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${backend}/listArticles`)
-      .then((res) => setArticle(res.data))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+const Posts = () => {
+  const articles = useSelector((state) => state.articleReducer);
 
   // PAGINATION
   const [currentPage, setCurrentpage] = useState(1);
   const enregParPage = 6;
   const lastIndex = currentPage * enregParPage;
   const firstIndex = lastIndex - enregParPage;
-  const donnees = article.slice(firstIndex, lastIndex);
-  const nbrPage = Math.ceil(article.length / enregParPage);
+  !isEmpty(articles) && articles.slice(firstIndex, lastIndex);
+  const nbrPage = Math.ceil(
+    (!isEmpty(articles) && articles.length) / enregParPage
+  );
 
   return (
     <div>
       <div className="actualites">
         <h3>Actualités</h3>
+
         <div className="articles">
-          {donnees.map((art, i) => {
-            return (
-              <article key={i}>
-                <Link to={`/article/${art.idArticle}`}>
-                  <div className="img_article">
-                    <img
-                      src={`${backend}/images-article/${art.imageArticle}`}
-                      alt=""
-                    />
-                  </div>
-                  <div className="texte_article">
-                    <h5 className="titre_article">
-                      {art.titreArticle.length > 60 ? (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: art.titreArticle.substring(0, 60) + "...",
-                          }}
-                        />
-                      ) : (
-                        <divn
-                          dangerouslySetInnerHTML={{ __html: art.titreArticle }}
-                        />
-                      )}
-                    </h5>
-                    <p className="contenu_article">
-                      {art.contenu.length > 120 ? (
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: art.contenu.substring(0, 120) + "...",
-                          }}
-                        />
-                      ) : (
-                        <div
-                          dangerouslySetInnerHTML={{ __html: art.contenu }}
-                        />
-                      )}
-                    </p>
-                  </div>
-                </Link>
-              </article>
-            );
-          })}
+          {!isEmpty(articles) &&
+            articles.map((art, i) => {
+              return <Articles article={art} key={i} />;
+            })}
         </div>
       </div>
 
@@ -100,4 +56,6 @@ export default function Posts() {
       setCurrentpage(currentPage + 1);
     }
   }
-}
+};
+
+export default Posts;

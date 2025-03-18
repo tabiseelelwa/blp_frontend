@@ -12,10 +12,11 @@ import Formations from "./Pages/Formations";
 import About from "./Pages/About";
 import Posts from "./Pages/Posts";
 import Introuvable from "./Pages/Introuvable";
+// import ModifArticle from "./Pages/ModifArticle";
 
 import ClientLayout from "./Layout/ClientLayout";
 import AdminLayout from "./Layout/AdminLayout";
-import ModifArticle from "./Admin/modif/ModifArticle";
+
 import Connexion from "./Admin/Connexion";
 import ModifMdp from "./Admin/modif/ModifMdp";
 import Users from "./Admin/Affichage/Users";
@@ -23,16 +24,14 @@ import CreatUser from "./Admin/creation/CreatUser";
 import ModifUser from "./Admin/modif/ModifUser";
 import Messages from "./Admin/Affichage/Messages";
 import Parametres from "./Admin/Parametres";
-import AccueilAdmin from "./Admin/Accueil";
-import DetailsAdmin from "./Admin/Affichage/DetailsAdmin";
-import PhotoArticle from "./Admin/modif/PhotoArticle";
 import ArticleCreation from "./Admin/creation/articleCreation";
-import ProfilUser from "./Admin/modif/ProfilUser";
+import AccueilAdmin from "./Admin/Accueil";
 import CreateAbout from "./Admin/creation/createAbout";
 import ModifAbout from "./Admin/modif/ModifAbout";
 import AdminListFormation from "./Admin/Affichage/formations";
 import CreateFormation from "./Admin/creation/createFormation";
 import DetailsFormation from "./Pages/detailsFormation";
+import ModifArticle from "./Pages/ModifArticle";
 
 const router = createBrowserRouter([
   // ROUTES des visiteurs
@@ -68,7 +67,7 @@ const router = createBrowserRouter([
     ],
   },
 
-  // ROUTES DU LOGIN MO,DIFIFCATION DU MOT DE PASSE et DE LA ROUTE 404
+  // ROUTES DU LOGIN, MODIFIFCATION DU MOT DE PASSE et DE LA PAGE INTROUVABLE (404)
   {
     path: "/login",
     element: <Connexion />,
@@ -92,28 +91,16 @@ const router = createBrowserRouter([
         element: <AccueilAdmin />,
       },
       {
-        path: "article-creation",
-        element: <ArticleCreation />,
-      },
-      {
-        path: "modif-article/:idArticle",
-        element: <ModifArticle />,
-      },
-      {
-        path: "details-admin/:idArticle",
-        element: <DetailsAdmin />,
-      },
-      {
         path: "list-users",
         element: <Users />,
       },
       {
-        path: "formations",
-        element: <AdminListFormation />,
+        path: "article-creation",
+        element: <ArticleCreation />,
       },
       {
-        path: "photo-user/:idUser",
-        element: <ProfilUser />,
+        path: "formations",
+        element: <AdminListFormation />,
       },
       {
         path: "create-user",
@@ -124,16 +111,16 @@ const router = createBrowserRouter([
         element: <CreateFormation />,
       },
       {
+        path: "modif-article/:idArticle",
+        element: <ModifArticle />,
+      },
+      {
         path: "modif-users/:idUser",
         element: <ModifUser />,
       },
       {
         path: "messages",
         element: <Messages />,
-      },
-      {
-        path: "photo-article/:idArticle",
-        element: <PhotoArticle />,
       },
       {
         path: "about_creat",
