@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -6,7 +5,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listArticles, supprimArticle } from "../api/articles";
 
 const AccueilAdmin = () => {
-  const backend = "http://localhost:8085";
   const queryClient = useQueryClient();
 
   const {

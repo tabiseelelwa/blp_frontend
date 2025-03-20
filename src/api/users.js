@@ -1,11 +1,9 @@
 import axios from "axios";
+import { backend } from "../Composants/backend";
 
 export const createUser = async (user) => {
   try {
-    const response = await axios.post(
-      "http://localhost:8085/api/createUser",
-      user
-    );
+    const response = await axios.post(`${backend}/api/createUser`, user);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -14,7 +12,7 @@ export const createUser = async (user) => {
 
 export const listUsers = async () => {
   try {
-    const response = await axios.get("http://localhost:8085/api/listUsers");
+    const response = await axios.get(`${backend}/api/listUsers`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -23,9 +21,7 @@ export const listUsers = async () => {
 
 export const detailsUser = async (idUser) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8085/api/detailsUser/${idUser}`
-    );
+    const response = await axios.get(`${backend}/api/detailsUser/${idUser}`);
     return response.data[0];
   } catch (error) {
     console.error(error);
@@ -35,7 +31,7 @@ export const detailsUser = async (idUser) => {
 export const modifUser = async (idAnnonce, values) => {
   try {
     const response = await axios.put(
-      `http://localhost:8085/api/modifUser/${idAnnonce}`,
+      `${backend}/api/modifUser/${idAnnonce}`,
       values
     );
     return response.data;
@@ -46,9 +42,7 @@ export const modifUser = async (idAnnonce, values) => {
 
 export const supprimUser = async (idUser) => {
   try {
-    const response = await axios.delete(
-      `http://localhost:8085/api/supprimUser/${idUser}`
-    );
+    const response = await axios.delete(`${backend}/api/supprimUser/${idUser}`);
     return response.data;
   } catch (error) {
     console.error(error);

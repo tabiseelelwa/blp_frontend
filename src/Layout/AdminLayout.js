@@ -19,7 +19,7 @@ const AdminLayout = () => {
 
   useEffect(() => {
     axios
-      .get(`${backend}/authentification`)
+      .get(`${backend}/api/authentification`)
       .then((res) => {
         if (res.data.valid) {
           setNom(res.data.nomUser);

@@ -6,12 +6,14 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { detailsArticle, modifArticle } from "../api/articles";
+import { listCategories } from "../api/categories";
 
 const ModifArticle = () => {
   const { idArticle } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  // chargement des articles
   const {
     data: article,
     isLoading,
@@ -21,22 +23,37 @@ const ModifArticle = () => {
     queryFn: () => detailsArticle(idArticle),
   });
 
+  // chargement des catégories
+  const {
+    data: categories,
+    isLoading: chargement,
+    isError: erreur,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => listCategories(),
+  });
+
+  // les states des éléménts du formulaire
   const [titre, setTitre] = useState("");
   const [categorie, setCategorie] = useState("");
   const [contenu, setContenu] = useState("");
 
+  // les éléments du formulaire
   const values = new FormData();
   values.append("titre", titre);
   values.append("categorie", categorie);
   values.append("contenu", contenu);
 
+  // affectation des éléments chargés dans le formulaire pour modification
   useEffect(() => {
     if (article) {
       setTitre(article.titreArticle);
       setContenu(article.contenu);
+      setCategorie(article.Categorie);
     }
   }, [article]);
 
+  // mutation pour modification de l'article
   const mutationModifArticle = useMutation({
     mutationFn: () => {
       return modifArticle(idArticle, values);
@@ -47,11 +64,12 @@ const ModifArticle = () => {
     },
   });
 
+  // fonction pour soumettre le formulaire de modification de
   const modifier = (e) => {
     e.preventDefault();
-
     mutationModifArticle.mutate(values);
   };
+
   const module = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -71,6 +89,8 @@ const ModifArticle = () => {
 
   if (isLoading) return <div>Chargement en cours...</div>;
   if (isError) return <div>Erreur de chargement des données...</div>;
+  if (chargement) return <div>Chargement en cours...</div>;
+  if (erreur) return <div>Erreur de chargement des catégories...</div>;
 
   return (
     <div className="element_admin redaction">
@@ -95,14 +115,13 @@ const ModifArticle = () => {
           id=""
           name="categorie"
           onChange={(e) => setCategorie(e.target.value)}
-          value={values.categorie}
+          value={categorie}
         >
-          <option>-- Choisir la catégorie de votre article --</option>
-          {/* {categories.map((cat, i) => (
-            <option value={cat.designCateg} key={i}>
-              {cat.designCateg}
+          {categories.map((cat, i) => (
+            <option value={cat.nomCategorie} key={i}>
+              {cat.nomCategorie}
             </option>
-          ))} */}
+          ))}
         </select>
         <button>Soumettre</button>
       </form>

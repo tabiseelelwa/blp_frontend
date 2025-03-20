@@ -15,7 +15,7 @@ const Login = () => {
 
   useEffect(() => {
     axios
-      .get(`${backend}/authentification`)
+      .get(`${backend}/api/authentification`)
       .then((res) => {
         if (res.data.valid) {
           navigate("/admin");
@@ -28,7 +28,7 @@ const Login = () => {
 
   const connexion = (e) => {
     e.preventDefault();
-    axios.post(`${backend}/login`, value).then((res) => {
+    axios.post(`${backend}/api/login`, value).then((res) => {
       if (res.data.Login) {
         navigate("/");
         console.log(`"Vous êtes connecté !!"`);

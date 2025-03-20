@@ -1,10 +1,11 @@
 import axios from "axios";
+import { backend } from "../Composants/backend";
 
 // API CREATION D'UNE FORMATION
 export const createFormation = async (formation) => {
   try {
     const response = await axios.post(
-      "http://localhost:8085/api/ajoutFormation",
+      `${backend}/api/ajoutFormation`,
       formation
     );
     return response.data;
@@ -16,9 +17,7 @@ export const createFormation = async (formation) => {
 // API RECUPERATION DE TOUTES LES FORMATIONS
 export const listFormations = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:8085/api/listFormations"
-    );
+    const response = await axios.get(`${backend}/api/listFormations`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -29,7 +28,7 @@ export const listFormations = async () => {
 export const detailsFormation = async (idFormation) => {
   try {
     const response = await axios.get(
-      `http://localhost:8085/api/detailsFormation/${idFormation}`
+      `${backend}/api/detailsFormation/${idFormation}`
     );
     return response.data[0];
   } catch (error) {
@@ -41,7 +40,7 @@ export const detailsFormation = async (idFormation) => {
 export const modifFormation = async (idFormation, values) => {
   try {
     const response = await axios.put(
-      `http://localhost:8085/api/modifFormation/${idFormation}`,
+      `${backend}/api/modifFormation/${idFormation}`,
       values
     );
     return response.data;
@@ -54,7 +53,7 @@ export const modifFormation = async (idFormation, values) => {
 export const supprimFormation = async (idFormation) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8085/api/suppFormation/${idFormation}`
+      `${backend}/api/suppFormation/${idFormation}`
     );
     return response.data;
   } catch (error) {

@@ -1,12 +1,10 @@
 import axios from "axios";
+import { backend } from "../Composants/backend";
 
 // API CREATION D'ARTICLE
 export const createArticle = async (article) => {
   try {
-    const response = await axios.post(
-      "http://localhost:8085/api/ajoutArticle",
-      article
-    );
+    const response = await axios.post(`${backend}/api/ajoutArticle`, article);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -16,7 +14,7 @@ export const createArticle = async (article) => {
 // API RECUPERATION DE TOUS LES ARTICLES
 export const listArticles = async () => {
   try {
-    const response = await axios.get("http://localhost:8085/api/listArticles");
+    const response = await axios.get(`${backend}/api/listArticles`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -27,7 +25,7 @@ export const listArticles = async () => {
 export const detailsArticle = async (idArticle) => {
   try {
     const response = await axios.get(
-      `http://localhost:8085/api/detailsArticle/${idArticle}`
+      `${backend}/api/detailsArticle/${idArticle}`
     );
     return response.data[0];
   } catch (error) {
@@ -38,9 +36,7 @@ export const detailsArticle = async (idArticle) => {
 // API DE COMPTAGE D'ARTICLES
 export const nombre_articles = async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:8085/api/nombre_articles"
-    );
+    const response = await axios.get(`${backend}/api/nombre_articles`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -51,7 +47,7 @@ export const nombre_articles = async () => {
 export const modifArticle = async (idArticle, values) => {
   try {
     const response = await axios.put(
-      `http://localhost:8085/api/modifArticle/${idArticle}`,
+      `${backend}/api/modifArticle/${idArticle}`,
       values
     );
     return response.data;
@@ -64,7 +60,7 @@ export const modifArticle = async (idArticle, values) => {
 export const supprimArticle = async (idArticle) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8085/api/supprArticle/${idArticle}`
+      `${backend}/api/supprArticle/${idArticle}`
     );
     return response.data;
   } catch (error) {

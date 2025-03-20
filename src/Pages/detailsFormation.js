@@ -2,9 +2,9 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { detailsFormation } from "../api/formations";
+import { backend } from "../Composants/backend";
 
 const DetailsFormation = () => {
-  const backend = "http://localhost:8085";
   const { idFormation } = useParams();
 
   const {

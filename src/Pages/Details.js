@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { detailsArticle } from "../api/articles";
+import { backend } from "../Composants/backend";
+
 const Details = () => {
-  const backend = "http://localhost:8085";
   const { idArticle } = useParams();
 
   const {
