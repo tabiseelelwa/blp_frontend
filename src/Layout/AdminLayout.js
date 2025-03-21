@@ -13,15 +13,17 @@ const AdminLayout = () => {
   axios.defaults.withCredentials = true;
 
   const [nom, setNom] = useState("");
-
   // Vérification de l'existence de la session.
   // Si celle-ci n'existe pas, l'utilisateur est reconduit à la page de connexion
 
   useEffect(() => {
     axios
-      .get(`${backend}/api/authentification`)
+      .get(`${backend}/api/authentification`, {
+        headers: localStorage.getItem("token"),
+      })
       .then((res) => {
         if (res.data.valid) {
+          navigate("/admin");
           setNom(res.data.nomUser);
         } else {
           navigate("/login");

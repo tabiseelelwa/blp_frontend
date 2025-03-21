@@ -30,7 +30,10 @@ const Login = () => {
     e.preventDefault();
     axios.post(`${backend}/api/login`, value).then((res) => {
       if (res.data.Login) {
-        navigate("/");
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.result[0].role);
+        localStorage.setItem("nomUser", res.data.result[0].nomUser);
+        navigate("/admin");
         console.log(`"Vous êtes connecté !!"`);
       } else {
         alert("Mot de passe incorrect");
