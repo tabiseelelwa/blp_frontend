@@ -3,9 +3,12 @@ import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listArticles, supprimArticle } from "../api/articles";
+import axios from "axios";
 
 const AccueilAdmin = () => {
   const queryClient = useQueryClient();
+
+  axios.defaults.withCredentials = true;
 
   const {
     isLoading,

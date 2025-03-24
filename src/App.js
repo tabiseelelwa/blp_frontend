@@ -32,6 +32,7 @@ import AdminListFormation from "./Admin/Affichage/formations";
 import CreateFormation from "./Admin/creation/createFormation";
 import DetailsFormation from "./Pages/detailsFormation";
 import ModifArticle from "./Pages/ModifArticle";
+import ModifForm from "./Admin/modif/ModifForm";
 
 const router = createBrowserRouter([
   // ROUTES des visiteurs
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
         element: <ModifUser />,
       },
       {
+        path: "modif-formation/:idFormation",
+        element: <ModifForm />,
+      },
+      {
         path: "messages",
         element: <Messages />,
       },
@@ -127,7 +132,11 @@ const router = createBrowserRouter([
         element: <CreateAbout />,
       },
       {
-        path: "about_modif",
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "about_modif/:id",
         element: <ModifAbout />,
       },
       {

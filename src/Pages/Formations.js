@@ -30,7 +30,7 @@ const Formations = () => {
                 <Link to={`/detailsform/${form.idFormation}`}>
                   <div className="image_categ_formation">
                     <img
-                      src={`${backend}/images-formations/${form.imageFormation}`}
+                      src={`${backend}/images-formation/${form.imageFormation}`}
                       alt=""
                     />
                   </div>

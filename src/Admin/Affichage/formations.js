@@ -1,21 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { FaCamera, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { listFormations } from "../../api/formations";
+import { listFormations, supprimFormation } from "../../api/formations";
+import { backend } from "../../Composants/backend";
 
 const AdminListFormation = () => {
-  const backend = "http://localhost:8085";
+  const queryClient = useQueryClient();
+
+  const mutationSupprForm = useMutation({
+    mutationFn: (idFormation) => {
+      return supprimFormation(idFormation);
+    },
+    onError: (err) => console.error(err),
+    onSuccess: () => {
+      queryClient.invalidateQueries("formations");
+    },
+  });
 
   const supprimer = (idFormation) => {
-    axios
-      .delete(`${backend}/supprUser/` + idFormation)
-      .then((res) => {
-        console.log(res);
-        window.location.reload();
-      })
-      .catch((err) => console.log(err));
+    mutationSupprForm.mutate(idFormation);
   };
 
   const {
@@ -72,7 +76,7 @@ const AdminListFormation = () => {
                     <tr key={i}>
                       <td className="photo-profil">
                         <img
-                          src={`${backend}/images-formations/${use.imageFormation}`}
+                          src={`${backend}/images-formation/${use.imageFormation}`}
                           alt=""
                         />
                       </td>
@@ -85,7 +89,7 @@ const AdminListFormation = () => {
                         />
                       </td>
                       <td>
-                        <Link to={`/admin/modif-users/${use.idFormation}`}>
+                        <Link to={`/admin/modif-formation/${use.idFormation}`}>
                           <FaEdit />
                         </Link>
                         <Link to={`/admin/photo-user/${use.idFormation}`}>

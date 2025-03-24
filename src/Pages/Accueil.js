@@ -7,13 +7,16 @@ import Swipper from "./Swipper";
 import { useQuery } from "@tanstack/react-query";
 import { listArticles } from "../api/articles";
 
-
 const Accueil = () => {
-  
-  const {data: articles, isLoading, error} = useQuery({
+  const {
+    data: articles,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ["articles"],
-    queryFn: listArticles
-  })
+    queryFn: listArticles,
+    refetchOnWindowFocus: true,
+  });
 
   if (isLoading) return <div>Chargement</div>;
   if (error) return <div>Erreur de chargement des données</div>;
@@ -30,9 +33,10 @@ const Accueil = () => {
         {/* Les actualités */}
 
         <div className="articles">
-          {!isEmpty(articles) && articles.map((art, i) => {
-                return <Articles article={art} key={i} />;
-              })}
+          {!isEmpty(articles) &&
+            articles.map((art, i) => {
+              return <Articles article={art} key={i} />;
+            })}
         </div>
 
         {/* Affichage de tous les articles */}

@@ -1,27 +1,35 @@
 import React from "react";
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createAbout } from "../../api/about";
+
 const CreateAbout = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [contenu, setContenu] = useState("");
-  const backend = "http://localhost:8085";
+
+  const mutationAjoutAbout = useMutation({
+    mutationFn: (about) => {
+      return createAbout(about);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("about");
+    },
+  });
+
+  const values = new FormData();
+  values.append("descr", contenu);
+
   const enregArticle = (e) => {
     e.preventDefault();
-
-    const formdata = new FormData();
-    formdata.append("descr", contenu);
-    axios
-      .post(`${backend}/about-creat`, formdata)
-      .then((res) => {
-        console.log(res.data);
-        console.log(contenu);
-        navigate("/a-propos");
-      })
-      .catch((err) => console.log(err));
+    mutationAjoutAbout.mutate(values);
+    navigate("/admin/about_creat");
   };
   const module = {
     toolbar: [
@@ -42,6 +50,7 @@ const CreateAbout = () => {
   return (
     <div className="element_admin redaction ">
       <form onSubmit={enregArticle}>
+        
         <ReactQuill
           theme="snow"
           className="contenu about"

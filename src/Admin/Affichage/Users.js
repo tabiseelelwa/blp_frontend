@@ -1,62 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaEdit, FaUser, FaTrash, FaCamera } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { listUsers, supprimUser } from "../../api/users";
+import { backend } from "../../Composants/backend";
 
 const Users = () => {
-  const backend = "http://localhost:8085";
+  const queryClient = useQueryClient();
 
-  const [user, setUser] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${backend}/listUsers`)
-      .then((res) => setUser(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+  const mutationSupprUser = useMutation({
+    mutationFn: (idUser) => {
+      return supprimUser(idUser);
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("utilisateur");
+    },
+  });
 
   const supprimer = (idUser) => {
-    axios
-      .delete(`${backend}/supprUser/` + idUser)
-      .then((res) => {
-        console.log(res);
-        window.location.reload();
-      })
-      .catch((err) => console.log(err));
+    mutationSupprUser.mutate(idUser);
   };
 
-  // FILTRES
-  const categFilstre = [...new Set(user.map((val) => val.role))];
+  const {
+    isLoading,
+    isError,
+    data: util,
+  } = useQuery({
+    queryKey: ["utilisateur"],
+    queryFn: listUsers,
+  });
 
-  const filtres = (cat) => {
-    const newItems = user.filter((newVal) => newVal.role === cat);
-    setUser(newItems);
-  };
-
-  function ButtonsFiltres() {
-    return (
-      <div className="cat">
-        {categFilstre.map((val, i) => (
-          <button onClick={() => filtres(val)} key={i}>
-            {" "}
-            {val}{" "}
-          </button>
-        ))}
-        <button onClick={() => window.location.reload()}>
-          Tous les utilisateurs
-        </button>
-      </div>
-    );
-  }
-  // PAGINATION
-
-  const [currentPage, setCurrentpage] = useState(1);
-
-  const enregParPage = 5;
-  const lastIndex = currentPage * enregParPage;
-  const firstIndex = lastIndex - enregParPage;
-  const donnees = user.slice(firstIndex, lastIndex);
-  const nbrPage = Math.ceil(user.length / enregParPage);
+  if (isLoading) return <div>Chargement ...</div>;
+  if (isError) return <div>Erreur de chargment</div>;
 
   return (
     <div className="outlet">
@@ -76,7 +54,7 @@ const Users = () => {
       <div className="list_articles">
         <div className="en_tete">
           <h6>Liste des utilisateurs</h6>
-          <ButtonsFiltres />
+
           <Link to="/admin/create-user" className="ajoutAgent">
             Ajouter
           </Link>
@@ -95,33 +73,33 @@ const Users = () => {
               </tr>
             </thead>
             <tbody>
-              {donnees.length === 0 ? (
+              {util.length === 0 ? (
                 <tr>
                   <td colSpan={7}> Aucun utilisateur trouvé !! </td>
                 </tr>
               ) : (
-                donnees.map((use, i) => {
+                util.map((user, i) => {
                   return (
                     <tr key={i}>
                       <td className="photo-profil">
                         <img
-                          src={`${backend}/profil-users/${use.imageUser}`}
+                          src={`${backend}/profil-users/${user.imageUser}`}
                           alt=""
                         />
                       </td>
-                      <td>{use.nomUser}</td>
-                      <td>{use.postnomUser}</td>
-                      <td>{use.prenomUser}</td>
-                      <td>{use.email}</td>
-                      <td>{use.role}</td>
+                      <td>{user.nomUser}</td>
+                      <td>{user.postnomUser}</td>
+                      <td>{user.prenomUser}</td>
+                      <td>{user.email}</td>
+                      <td>{user.role}</td>
                       <td>
-                        <Link to={`/admin/modif-users/${use.idUser}`}>
+                        <Link to={`/admin/modif-users/${user.idUser}`}>
                           <FaEdit />
                         </Link>
-                        <Link to={`/admin/photo-user/${use.idUser}`}>
+                        <Link to={`/admin/photo-user/${user.idUser}`}>
                           <FaCamera />
                         </Link>
-                        <Link onClick={() => supprimer(use.idUser)}>
+                        <Link onClick={() => supprimer(user.idUser)}>
                           <FaTrash />
                         </Link>
                       </td>
@@ -131,35 +109,10 @@ const Users = () => {
               )}
             </tbody>
           </table>
-          <div className="controls">
-            <button onClick={precedent}>
-              {nbrPage <= 1
-                ? ""
-                : currentPage > 1 && nbrPage > 1
-                ? "Précédent"
-                : ""}
-            </button>
-            <span>{nbrPage <= 1 ? "" : currentPage + " sur " + nbrPage}</span>
-            <button onClick={suivant}>
-              {currentPage >= nbrPage ? "" : "Suivant"}
-            </button>
-          </div>
         </div>
       </div>
     </div>
   );
-
-  function precedent() {
-    if (currentPage !== 1) {
-      setCurrentpage(currentPage - 1);
-    }
-  }
-
-  function suivant() {
-    if (currentPage !== nbrPage) {
-      setCurrentpage(currentPage + 1);
-    }
-  }
 };
 
 export default Users;

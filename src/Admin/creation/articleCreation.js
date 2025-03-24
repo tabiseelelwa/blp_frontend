@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-// import { isEmpty } from "../../Composants/testVide";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createArticle } from "../../api/articles";
+import { listCategories } from "../../api/categories";
 
 const Article = () => {
   const navigate = useNavigate();
@@ -43,6 +43,16 @@ const Article = () => {
     navigate("/admin");
   };
 
+  // chargement des catégories
+  const {
+    data: categories,
+    isLoading: chargement,
+    isError: erreur,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => listCategories(),
+  });
+
   const module = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -60,6 +70,8 @@ const Article = () => {
     ],
   };
 
+  if (chargement) return <div>Chargement</div>;
+  if (erreur) return <div>Erreur de chargement</div>;
   return (
     <div className="redaction">
       <form onSubmit={enregArticle}>
@@ -72,12 +84,11 @@ const Article = () => {
         />
         <select onChange={(e) => setCat(e.target.value)}>
           <option>-- Choisir une catégorie --</option>
-          {/* {!isEmpty(categ) &&
-            categ.map((cat, i) => (
-              <option value={cat.designCateg} key={i}>
-                {cat.designCateg}
-              </option>
-            ))} */}
+          {categories.map((cat, i) => (
+            <option value={cat.nomCategorie} key={i}>
+              {cat.nomCategorie}
+            </option>
+          ))}
         </select>
 
         <ReactQuill

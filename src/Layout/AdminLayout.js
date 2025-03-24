@@ -1,37 +1,44 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import SideBar from "../Admin/SideBar";
 import axios from "axios";
-import { backend } from "../Composants/backend";
+import { useQuery } from "@tanstack/react-query";
+import { authentification } from "../api/login";
 
 // AFFICHAGE DE L'ADMINISTRATEUR
 
 const AdminLayout = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const url = location.pathname;
 
   axios.defaults.withCredentials = true;
+  // console.log(url);
 
   const [nom, setNom] = useState("");
-  // Vérification de l'existence de la session.
+  // Vérification de l'existence du token.
   // Si celle-ci n'existe pas, l'utilisateur est reconduit à la page de connexion
 
-  useEffect(() => {
-    axios
-      .get(`${backend}/api/authentification`, {
-        headers: localStorage.getItem("token"),
-      })
-      .then((res) => {
-        if (res.data.valid) {
-          navigate("/admin");
-          setNom(res.data.nomUser);
-        } else {
-          navigate("/login");
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const { data: user, isError } = useQuery({
+    queryKey: ["login"],
+    queryFn: authentification,
+  });
 
+  useEffect(() => {
+    if (user) {
+      if (user.Login === true) {
+        setNom(user.nom);
+        navigate(url);
+      }
+    } else {
+      navigate("/login");
+    }
+  }, [user]);
+
+  if (isError) {
+    console.error(user.error);
+  }
   return (
     <div className="admin">
       <SideBar className="sidebar" />

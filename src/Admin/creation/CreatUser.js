@@ -1,27 +1,38 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createUser } from "../../api/users";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const CreatUser = () => {
-  const backend = "http://localhost:8085";
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const [message, setMessage] = useState("");
+
   const [values, setValues] = useState({
     nom: "",
     postnom: "",
     prenom: "",
     email: "",
-    motdepasse: "",
+  });
+
+  const mutationAjoutUser = useMutation({
+    mutationFn: (user) => {
+      return createUser(user);
+    },
+    onError: (err) => {
+      setMessage(err.response?.data?.Message || "Une erreur s'est produite");
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("utilisateur");
+      alert(data.Message);
+    },
   });
 
   const enregUser = (e) => {
     e.preventDefault();
-    axios
-      .post(`${backend}/enregUser`, values)
-      .then((res) => {
-        console.log(res);
-        navigate("/admin/list-users");
-      })
-      .catch((err) => console.log(err));
+    mutationAjoutUser.mutate(values);
+    navigate("/admin/list-users");
   };
 
   return (
@@ -29,6 +40,7 @@ const CreatUser = () => {
       <div className="element_admin form ">
         <form onSubmit={enregUser}>
           <h3>Création nouvel utilisateur</h3>
+          {message ? <div>{message}</div> : ""}
           <input
             type="text"
             placeholder="Entrez le nom"

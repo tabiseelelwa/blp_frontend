@@ -1,11 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { authentification, loginConnexion } from "../api/login";
 import axios from "axios";
-import { backend } from "../Composants/backend";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+
   const [value, setValue] = useState({
     email: "",
     password: "",
@@ -13,37 +16,50 @@ const Login = () => {
 
   axios.defaults.withCredentials = true;
 
+  // Système d'authentification: Vérification d'un utilisateur connecté
+  const { data: user, isError } = useQuery({
+    queryKey: ["login"],
+    queryFn: authentification,
+  });
+
   useEffect(() => {
-    axios
-      .get(`${backend}/api/authentification`)
-      .then((res) => {
-        if (res.data.valid) {
-          navigate("/admin");
-        } else {
-          navigate("/login");
-        }
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (user) {
+      if (user.Login === true) {
+        navigate("/admin");
+      }
+    } else {
+      navigate("/login");
+    }
+  }, [user]);
+
+  if (isError) {
+    console.error(user.error);
+  }
+
+  const mutationLogin = useMutation({
+    mutationFn: (value) => {
+      return loginConnexion(value);
+    },
+    onSuccess: (data) => {
+      if (data.Login === true) {
+        navigate("/admin");
+        setMessage(data.Message);
+      } else {
+        setMessage(data.Message);
+      }
+    },
+  });
 
   const connexion = (e) => {
     e.preventDefault();
-    axios.post(`${backend}/api/login`, value).then((res) => {
-      if (res.data.Login) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("role", res.data.result[0].role);
-        localStorage.setItem("nomUser", res.data.result[0].nomUser);
-        navigate("/admin");
-        console.log(`"Vous êtes connecté !!"`);
-      } else {
-        alert("Mot de passe incorrect");
-      }
-    });
+    mutationLogin.mutate(value);
   };
+
   return (
     <div className="log">
       <form>
         <h3>Connexion</h3>
+        {message ? <div>{message}</div> : ""}
         <input
           type="text"
           placeholder="esubetabiseelelwa@gmail.com"

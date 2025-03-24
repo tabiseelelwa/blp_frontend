@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -55,9 +54,7 @@ const ModifArticle = () => {
 
   // mutation pour modification de l'article
   const mutationModifArticle = useMutation({
-    mutationFn: () => {
-      return modifArticle(idArticle, values);
-    },
+    mutationFn: () => modifArticle(idArticle, values),
     onSuccess: () => {
       queryClient.invalidateQueries("articles");
       navigate("/admin");

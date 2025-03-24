@@ -1,17 +1,25 @@
-import axios from "axios";
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { loginDeconnexion } from "../api/login";
 
 export default function SideBar() {
-  const navigate = useNavigate();
-  const backend = "http://localhost:8085";
+  const queryClient = useQueryClient();
 
-  const deconnexion = (e) => {
-    e.preventDefault();
-    axios.get(`${backend}/logout`).then((res) => {
-      navigate("/login");
-    });
+  const mutationDeconnexion = useMutation({
+    mutationFn: loginDeconnexion,
+    onError: () => {
+      console.log("Problème de déconnexion");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("login");
+    },
+  });
+
+  const deconnexion = () => {
+    mutationDeconnexion.mutate();
+    window.location.reload();
   };
 
   return (
@@ -30,7 +38,7 @@ export default function SideBar() {
         </Link>
         <Link to="formations">Formations</Link>
         <Link to="list-users">Utilisateurs</Link>
-        <Link to="config">Paramètres</Link>
+        <Link to="about">Apropos</Link>
         <button onClick={deconnexion}>Deconnexion </button>
       </div>
     </aside>

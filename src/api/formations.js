@@ -41,7 +41,12 @@ export const modifFormation = async (idFormation, values) => {
   try {
     const response = await axios.put(
       `${backend}/api/modifFormation/${idFormation}`,
-      values
+      values,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     return response.data;
   } catch (error) {

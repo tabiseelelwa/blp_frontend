@@ -27,7 +27,7 @@ const DetailsFormation = () => {
     <div className="Details">
       <div className="contenu">
         <img
-          src={`${backend}/images-formations/${donne.imageFormation}`}
+          src={`${backend}/images-formation/${donne.imageFormation}`}
           alt=""
         />
         <h3>{donne.intituleFormation}</h3>
