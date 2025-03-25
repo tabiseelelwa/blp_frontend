@@ -103,7 +103,7 @@ const ModifArticle = () => {
 
         <ReactQuill
           theme="snow"
-          className="contenu"
+          className="contenu about"
           modules={module}
           value={contenu}
           onChange={setContenu}

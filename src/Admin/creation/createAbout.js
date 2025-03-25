@@ -9,6 +9,7 @@ import { createAbout } from "../../api/about";
 const CreateAbout = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const [contenu, setContenu] = useState("");
 
   const mutationAjoutAbout = useMutation({
@@ -50,7 +51,6 @@ const CreateAbout = () => {
   return (
     <div className="element_admin redaction ">
       <form onSubmit={enregArticle}>
-        
         <ReactQuill
           theme="snow"
           className="contenu about"

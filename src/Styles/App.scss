@@ -181,7 +181,7 @@ main {
   }
 }
 
-.about {
+.About-wraper {
   padding: 0 2rem;
 
   .btnAbout {
@@ -367,7 +367,7 @@ main {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 2rem 0;
+  // padding: 2rem 0;
 
   form {
     width: 750px;
@@ -385,6 +385,12 @@ main {
     }
 
     .contenu {
+      margin-bottom: 2rem;
+    }
+
+    .about {
+      width: 100%;
+      height: 200px;
       margin-bottom: 2rem;
     }
 

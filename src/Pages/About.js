@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { listAbout } from "../api/about";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const About = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     isError,
     isLoading,
@@ -11,6 +11,7 @@ const About = () => {
   } = useQuery({
     queryKey: ["about"],
     queryFn: listAbout,
+    refetchOnWindowFocus: true,
   });
 
   if (isError) return <div>Erreur de chargement</div>;
@@ -22,18 +23,23 @@ const About = () => {
       </div>
       {about.map((a, i) => {
         return (
-          <div className="about" key={i}>
+          <div className="About-wraper" key={i}>
             <div className="contenu">
-              {/* <div dangerouslySetInnerHTML={{ __html: a.description }} /> */}
+              <div dangerouslySetInnerHTML={{ __html: a.description }} />
             </div>
             <div className="btnAbout">
-              {/* <button
+              <button
                 style={{ backgroundColor: "#09236b", color: "#fff" }}
                 onClick={() => navigate(`/admin/about_modif/${a.idAbout}`)}
-              > 
+              >
                 Modifier
               </button>
-              {/* <button style={{ border: "1px #09236b solid" }}>Ajouter</button> */}
+              <button
+                style={{ border: "1px #09236b solid" }}
+                onClick={() => navigate("/admin/about_creat")}
+              >
+                Ajouter
+              </button>
             </div>
           </div>
         );

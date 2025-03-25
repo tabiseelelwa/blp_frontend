@@ -21,12 +21,26 @@ export const listAbout = async () => {
   }
 };
 
+export const detailsAbout = async (idAbout) => {
+  try {
+    const response = await axios.get(`${backend}/api/apropos/${idAbout}`);
+    return response.data[0];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // MODIFIER ABOUT
 export const modifAbout = async (idAbout, values) => {
   try {
     const reponse = await axios.put(
       `${backend}/api/modifApropos/${idAbout}`,
-      values
+      values,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
     return reponse.data;
   } catch (error) {}

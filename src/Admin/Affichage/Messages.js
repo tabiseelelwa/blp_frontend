@@ -1,5 +1,6 @@
 import React from "react";
-import { FaEye, FaTrash, FaUserAlt } from "react-icons/fa";
+// import { FaEye, FaTrash, FaUserAlt } from "react-icons/fa";
+import { GoPerson, GoEye, GoTrash } from "react-icons/go";
 import { Link } from "react-router-dom";
 
 const Messages = () => {
@@ -11,7 +12,7 @@ const Messages = () => {
         <Link>
           <div className="categorie">
             <div className="icone_categ">
-              <FaUserAlt />
+              <GoPerson />
             </div>
             <div className="details_categ">
               <p>Messages</p>
@@ -54,12 +55,10 @@ const Messages = () => {
                 </td>
                 <td className="actions_articles">
                   <Link>
-                    {" "}
-                    <FaEye style={{ color: "gray" }} />
+                    <GoEye style={{ color: "gray" }} />
                   </Link>
                   <Link>
-                    {" "}
-                    <FaTrash style={{ color: "red" }} />
+                    <GoTrash style={{ color: "red" }} />
                   </Link>
                 </td>
               </tr>
@@ -74,72 +73,10 @@ const Messages = () => {
                 </td>
                 <td className="actions_articles">
                   <Link>
-                    {" "}
-                    <FaEye style={{ color: "gray" }} />
+                    <GoEye style={{ color: "gray" }} />
                   </Link>
                   <Link>
-                    {" "}
-                    <FaTrash style={{ color: "red" }} />
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className="titre">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </td>
-                {/*40 caractères*/}
-                <td className="categ_article"> Non lu</td>
-                <td className="auteur">
-                  <small>Léon</small>
-                </td>
-                <td className="actions_articles">
-                  <Link>
-                    {" "}
-                    <FaEye style={{ color: "gray" }} />
-                  </Link>
-                  <Link>
-                    {" "}
-                    <FaTrash style={{ color: "red" }} />
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className="titre">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </td>
-                {/*40 caractères*/}
-                <td className="categ_article"> Lu</td>
-                <td className="auteur">
-                  <small>Léon</small>
-                </td>
-                <td className="actions_articles">
-                  <Link>
-                    {" "}
-                    <FaEye style={{ color: "gray" }} />
-                  </Link>
-                  <Link>
-                    {" "}
-                    <FaTrash style={{ color: "red" }} />
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className="titre">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </td>
-                {/*40 caractères*/}
-                <td className="categ_article"> Non lu</td>
-                <td className="auteur">
-                  <small>Léon</small>
-                </td>
-                <td className="actions_articles">
-                  <Link>
-                    {" "}
-                    <FaEye style={{ color: "gray" }} />
-                  </Link>
-                  <Link>
-                    {" "}
-                    <FaTrash style={{ color: "red" }} />
+                    <GoTrash style={{ color: "red" }} />
                   </Link>
                 </td>
               </tr>

@@ -136,7 +136,7 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "about_modif/:id",
+        path: "about_modif/:idAbout",
         element: <ModifAbout />,
       },
       {

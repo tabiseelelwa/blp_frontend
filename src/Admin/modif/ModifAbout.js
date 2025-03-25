@@ -1,28 +1,49 @@
-
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { detailsAbout, modifAbout } from "../../api/about";
 const ModifAbout = () => {
   const navigate = useNavigate();
-  const [description, setDescription] = useState("");
-  const backend = "http://localhost:8085";
+  const { idAbout } = useParams();
+  const queryClient = useQueryClient();
+
+  const [contenu, setContenu] = useState("");
+
+  const values = new FormData();
+  values.append("contenu", contenu);
+
+  const mutationModifAbout = useMutation({
+    mutationFn: () => modifAbout(idAbout, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries("about");
+    },
+    
+  });
+
+  const {
+    isLoading,
+    isError,
+    data: about,
+  } = useQuery({
+    queryKey: ["about", idAbout],
+    queryFn: () => detailsAbout(idAbout),
+  });
+
+  useEffect(() => {
+    if (about) {
+      setContenu(about.description);
+    }
+  }, [about]);
+
   const enregArticle = (e) => {
     e.preventDefault();
-
-    const formdata = new FormData();
-    formdata.append("description", description);
-
-    axios
-      .post(`${backend}/create-article`, formdata)
-      .then((res) => {
-        console.log(res.data);
-        navigate("/about");
-      })
-      .catch((err) => console.log(err));
+    mutationModifAbout.mutate(values);
+    navigate("/admin/about");
   };
+
   const module = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -39,6 +60,10 @@ const ModifAbout = () => {
       [{ align: [] }, "blockquote", "code-block"],
     ],
   };
+
+  if (isLoading) return <div>Chargement en cours</div>;
+  if (isError) return <div>Erreur de chargement</div>;
+
   return (
     <div className="element_admin redaction ">
       <form onSubmit={enregArticle}>
@@ -46,7 +71,8 @@ const ModifAbout = () => {
           theme="snow"
           className="contenu about"
           modules={module}
-          onChange={setDescription}
+          onChange={setContenu}
+          value={contenu}
         />
         <button>Modifier</button>
       </form>

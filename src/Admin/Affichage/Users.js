@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEdit, FaUser, FaTrash, FaCamera } from "react-icons/fa";
+import { GoPencil, GoPerson, GoTrash, GoImage } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listUsers, supprimUser } from "../../api/users";
@@ -42,7 +42,7 @@ const Users = () => {
         <Link>
           <div className="categorie">
             <div className="icone_categ">
-              <FaUser />
+              <GoPerson />
             </div>
             <div className="details_categ">
               <p>Utilisateurs</p>
@@ -94,13 +94,13 @@ const Users = () => {
                       <td>{user.role}</td>
                       <td>
                         <Link to={`/admin/modif-users/${user.idUser}`}>
-                          <FaEdit />
+                          <GoPencil />
                         </Link>
                         <Link to={`/admin/photo-user/${user.idUser}`}>
-                          <FaCamera />
+                          <GoImage />
                         </Link>
                         <Link onClick={() => supprimer(user.idUser)}>
-                          <FaTrash />
+                          <GoTrash />
                         </Link>
                       </td>
                     </tr>

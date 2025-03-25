@@ -59,7 +59,19 @@ const Login = () => {
     <div className="log">
       <form>
         <h3>Connexion</h3>
-        {message ? <div>{message}</div> : ""}
+        {message ? (
+          <div
+            style={{
+              backgroundColor: "#dba5a5",
+              color: "#800707",
+              padding: "0.5rem",
+            }}
+          >
+            {message} !
+          </div>
+        ) : (
+          ""
+        )}
         <input
           type="text"
           placeholder="esubetabiseelelwa@gmail.com"

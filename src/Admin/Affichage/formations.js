@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-import { FaCamera, FaEdit, FaTrash, FaUser } from "react-icons/fa";
+import { GoPencil, GoTrash, GoPerson, GoImage } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { listFormations, supprimFormation } from "../../api/formations";
 import { backend } from "../../Composants/backend";
@@ -40,7 +40,7 @@ const AdminListFormation = () => {
         <Link>
           <div className="categorie">
             <div className="icone_categ">
-              <FaUser />
+              <GoPerson />
             </div>
             <div className="details_categ">
               <h6>300</h6>
@@ -90,13 +90,13 @@ const AdminListFormation = () => {
                       </td>
                       <td>
                         <Link to={`/admin/modif-formation/${use.idFormation}`}>
-                          <FaEdit />
+                          <GoPencil />
                         </Link>
                         <Link to={`/admin/photo-user/${use.idFormation}`}>
-                          <FaCamera />
+                          <GoImage />
                         </Link>
                         <Link onClick={() => supprimer(use.idFormation)}>
-                          <FaTrash />
+                          <GoTrash />
                         </Link>
                       </td>
                     </tr>

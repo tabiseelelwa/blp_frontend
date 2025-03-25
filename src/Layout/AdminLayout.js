@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import SideBar from "../Admin/SideBar";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -10,8 +10,6 @@ import { authentification } from "../api/login";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const url = location.pathname;
 
   axios.defaults.withCredentials = true;
   // console.log(url);
@@ -29,7 +27,6 @@ const AdminLayout = () => {
     if (user) {
       if (user.Login === true) {
         setNom(user.nom);
-        navigate(url);
       }
     } else {
       navigate("/login");

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import {GoPencil, GoEye, GoTrash} from "react-icons/go"
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listArticles, supprimArticle } from "../api/articles";
@@ -94,13 +94,13 @@ const AccueilAdmin = () => {
                       </td>
                       <td className="actions_articles">
                         <Link to={`details-admin/${art.idArticle}`}>
-                          <FaEye style={{ color: "gray" }} />
+                          <GoEye style={{ color: "gray" }} />
                         </Link>
                         <Link to={`modif-article/${art.idArticle}`}>
-                          <FaEdit style={{ color: "blue" }} />
+                          <GoPencil style={{ color: "blue" }} />
                         </Link>
                         <div onClick={() => supprimer(art.idArticle)}>
-                          <FaTrash style={{ color: "red" }} />
+                          <GoTrash style={{ color: "red" }} />
                         </div>
                       </td>
                     </tr>
