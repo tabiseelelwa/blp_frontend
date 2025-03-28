@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { listAbout } from "../api/about";
 import { useNavigate } from "react-router-dom";
 import { authentification } from "../api/login";
+import { MoonLoader } from "react-spinners";
 const About = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +32,12 @@ const About = () => {
   }, [user]);
 
   if (isError) return <div>Erreur de chargement</div>;
-  if (isLoading) return <div>En cours de chargement</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   return (
     <div>
       <div className="head">
