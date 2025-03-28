@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { detailsFormation } from "../api/formations";
 import { backend } from "../Composants/backend";
+import { MoonLoader } from "react-spinners";
 
 const DetailsFormation = () => {
   const { idFormation } = useParams();
@@ -20,7 +21,12 @@ const DetailsFormation = () => {
     },
   });
 
-  if (isLoading) return <div>Chargement</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (isError) return <div>`Erreur : ${error.cause}`</div>;
 
   return (

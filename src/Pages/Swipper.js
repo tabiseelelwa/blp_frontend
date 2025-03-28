@@ -1,9 +1,21 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay } from "swiper/modules";
-// import { Link } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { listAnnonces } from "../api/articles";
 const Swipper = () => {
+  const {
+    data: annonces,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["articles"],
+    queryFn: listAnnonces,
+  });
+
+  if (isLoading) return <div>Chargement des données</div>;
+  if (isError) return <div>Erreur de chargement</div>;
   return (
     <Swiper
       className="swiper "
@@ -15,54 +27,33 @@ const Swipper = () => {
         disableOnInteraction: false,
       }}
     >
-      <SwiperSlide className="swiper-slide">
-        <div
-          className="hero"
-          style={{
-            backgroundImage: `url(
+      {annonces === undefined
+        ? window.location.reload()
+        : annonces.map((annonce, i) => {
+            return (
+              <SwiperSlide className="swiper-slide">
+                <div
+                  className="hero"
+                  style={{
+                    backgroundImage: `url(
                 "Img/kkk.jpg")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className="texte_hero ">
-            <div className="titre">
-              <h1>
-                Nous sommes disposés à vous satisfaire en termes d'organisation
-                des formations professionnelles de qualité.
-              </h1>
-            </div>
-            {/* <Link to="article/2">
-              <button>Lire</button>
-            </Link> */}
-          </div>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="swiper-slide">
-        <div
-          className="hero"
-          style={{
-            backgroundImage: `url(
-                "Img/kkk.jpg")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className="texte_hero ">
-            <div className="titre">
-              <h1>
-                Votre satisfaction est notre devoir, où vous voulez, quand vous
-                voulez
-              </h1>
-            </div>
-            {/* <Link to="article/2">
-              <button>Lire</button>
-            </Link> */}
-          </div>
-        </div>
-      </SwiperSlide>
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                >
+                  <div className="texte_hero ">
+                    <div className="titre">
+                      <h1>{annonce.titreArticle}</h1>
+                    </div>
+                    <Link to={`article/${annonce.idArticle}`}>
+                      <button>Lire</button>
+                    </Link>
+                  </div>
+                </div>
+              </SwiperSlide>
+            );
+          })}
     </Swiper>
   );
 };

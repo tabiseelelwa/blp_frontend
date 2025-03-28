@@ -1,22 +1,77 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React from "react";
-// import { FaEye, FaTrash, FaUserAlt } from "react-icons/fa";
-import { GoPerson, GoEye, GoTrash } from "react-icons/go";
+import { GoMail, GoEye, GoTrash } from "react-icons/go";
 import { Link } from "react-router-dom";
+import {
+  lireMessage,
+  listMessages,
+  supprimMessage,
+  totalMessages,
+} from "../../api/message";
 
 const Messages = () => {
-  // PAGINATION
+  const queryClient = useQueryClient();
 
+  const mutationSuppimer = useMutation({
+    mutationFn: (idMessage) => {
+      return supprimMessage(idMessage);
+    },
+    onError: (err) => {
+      console.error(err);
+      throw err;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries("message");
+    },
+  });
+
+  const mutationLireMessage = useMutation({
+    mutationFn: (idMessage) => {
+      return lireMessage(idMessage);
+    },
+    onError: (err) => console.log(err),
+    onSuccess: () => {
+      queryClient.invalidateQueries("listMessages");
+    },
+  });
+
+  // NOMBRE TOTAL DE MESSAGES
+  const {
+    isLoading,
+    isError,
+    data: messages,
+  } = useQuery({
+    queryKey: ["totalMessage"],
+    queryFn: totalMessages,
+  });
+
+  // CHARGEMENT DE TOUS LES MESSAGES
+  const { data: contenu } = useQuery({
+    queryKey: ["listMessages"],
+    queryFn: listMessages,
+  });
+
+  const lireMsg = (idMessage) => {
+    mutationLireMessage.mutate(idMessage);
+  };
+
+  const suppr = (idMessage) => {
+    mutationSuppimer.mutate(idMessage);
+  };
+
+  if (isLoading) return <div>Chargement en cour</div>;
+  if (isError) return <div>Erreur de chargement</div>;
   return (
     <div className="">
       <div className="categories_articles">
         <Link>
           <div className="categorie">
             <div className="icone_categ">
-              <GoPerson />
+              <GoMail />
             </div>
             <div className="details_categ">
+              <h6>{messages}</h6>
               <p>Messages</p>
-              <h6>300</h6>
             </div>
           </div>
         </Link>
@@ -29,9 +84,6 @@ const Messages = () => {
             <button>Messages lus</button>
             <button>Messages non lus</button>
           </div>
-          <Link to="" className="ajoutAgent">
-            Nouveau message
-          </Link>
         </div>
         <div className="corps">
           <table className="table table borderless">
@@ -44,42 +96,34 @@ const Messages = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="titre">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </td>
-                {/*40 caractères*/}
-                <td className="categ_article"> Lu</td>
-                <td className="auteur">
-                  <small>Léon</small>
-                </td>
-                <td className="actions_articles">
-                  <Link>
-                    <GoEye style={{ color: "gray" }} />
-                  </Link>
-                  <Link>
-                    <GoTrash style={{ color: "red" }} />
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td className="titre">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                </td>
-                {/*40 caractères*/}
-                <td className="categ_article"> Lu</td>
-                <td className="auteur">
-                  <small>Léon</small>
-                </td>
-                <td className="actions_articles">
-                  <Link>
-                    <GoEye style={{ color: "gray" }} />
-                  </Link>
-                  <Link>
-                    <GoTrash style={{ color: "red" }} />
-                  </Link>
-                </td>
-              </tr>
+              {contenu === undefined
+                ? window.location.reload()
+                : contenu.map((mess, i) => {
+                    return (
+                      <tr key={i}>
+                        <td className="titre">
+                          {mess.contenuMessage.length > 40
+                            ? mess.contenuMessage.substring(0, 40) + " ..."
+                            : mess.contenuMessage}
+                        </td>
+                        <td className="categ_article"> {mess.statut}</td>
+                        <td className="auteur">
+                          <small>{mess.nomExpediteur}</small>
+                        </td>
+                        <td className="actions_articles">
+                          <GoEye
+                            style={{ color: "gray" }}
+                            onClick={() => lireMsg(mess.IdMessage)}
+                          />
+
+                          <GoTrash
+                            style={{ color: "red" }}
+                            onClick={() => suppr(mess.IdMessage)}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
 

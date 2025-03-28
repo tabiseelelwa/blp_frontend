@@ -20,6 +20,15 @@ export const listArticles = async () => {
     console.error(error);
   }
 };
+// API RECUPERATION DE TOUS LES ARTICLES
+export const listAnnonces = async () => {
+  try {
+    const response = await axios.get(`${backend}/api/listAnnonces`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // API RECUPERATION D'UN ARTICLE
 export const detailsArticle = async (idArticle) => {

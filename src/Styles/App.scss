@@ -20,7 +20,6 @@ main {
 }
 
 // LE MENU DE NAVIGATION
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -97,8 +96,21 @@ main {
   margin-top: 2rem;
 }
 
-// PAGE DE CONNEXION
+// LE SPINNER
+.spinner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  height: 100vh;
+  width: 100vw;
+  background-color: #062578;
+}
 
+// PAGE DE CONNEXION
 .log,
 .form {
   form {
@@ -136,7 +148,6 @@ main {
 }
 
 // ACCUEIL
-
 .Accueil {
   background-color: #f4f4f4;
 }
@@ -172,7 +183,6 @@ main {
 }
 
 // ACTUALITES
-
 .head {
   padding: 2rem 2rem 1rem 2rem;
   h3 {
@@ -298,8 +308,8 @@ main {
     color: #050567;
   }
 }
-// FORMULAIRE DE CONTACT
 
+// FORMULAIRE DE CONTACT
 .contact {
   display: flex;
   width: 100%;
@@ -342,7 +352,6 @@ main {
 }
 
 // DETAILS
-
 .Details {
   padding: 2rem 20rem 5rem;
   text-align: justify;
@@ -361,7 +370,6 @@ main {
 }
 
 // CREATION ARTICLE -- PAGE DE REDACTION
-
 .redaction {
   display: flex;
   align-items: center;
@@ -413,7 +421,6 @@ main {
 }
 
 // LA PAGE 404
-
 .introuvable {
   display: flex;
   flex-direction: column;
@@ -443,7 +450,6 @@ main {
 }
 
 // LES FORMATIONS
-
 .formation {
   display: flex;
   justify-content: center;
@@ -503,7 +509,6 @@ main {
 }
 
 // LE PIED DE PAGE
-
 .footer__container {
   left: 0;
   width: 100%;
@@ -515,7 +520,6 @@ main {
 }
 
 // ADMIN
-
 .admin {
   display: flex;
   padding: 0;
@@ -767,8 +771,8 @@ aside {
   border: 2px #050567 solid;
   color: #050567 !important;
 }
-// MEDIAS QUERIES
 
+// MEDIAS QUERIES
 @media screen and (max-width: 1024px) {
   .head {
     padding: 1rem 0 0 0;

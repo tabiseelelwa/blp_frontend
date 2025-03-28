@@ -81,7 +81,6 @@ const AdminListFormation = () => {
                         />
                       </td>
                       <td>
-                        {" "}
                         <div
                           dangerouslySetInnerHTML={{
                             __html: use.intituleFormation,

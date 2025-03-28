@@ -1,12 +1,24 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loginDeconnexion } from "../api/login";
+import { nonReadMessages } from "../api/message";
 
 export default function SideBar() {
   const queryClient = useQueryClient();
 
+  // AFFICHAGE DU NOMBRE DE MESSAGES
+  const {
+    data: messages,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["message"],
+    queryFn: nonReadMessages,
+  });
+
+  // PROCEDURE DE DECONNEXION
   const mutationDeconnexion = useMutation({
     mutationFn: loginDeconnexion,
     onError: () => {
@@ -22,6 +34,8 @@ export default function SideBar() {
     window.location.reload();
   };
 
+  if (isError) return <div>Erreur de chargement</div>;
+  if (isLoading) return <div>Chargement en cours</div>;
   return (
     <aside>
       <div className="head-sidebar">
@@ -34,7 +48,7 @@ export default function SideBar() {
         <Link to="">Accueil</Link>
         <Link to="messages" className="message">
           Messages
-          <span> 105 </span>
+          {messages <= 0 ? "" : <span> {messages} </span>}
         </Link>
         <Link to="formations">Formations</Link>
         <Link to="list-users">Utilisateurs</Link>

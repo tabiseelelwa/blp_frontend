@@ -1,5 +1,5 @@
 import React from "react";
-import {GoPencil, GoEye, GoTrash} from "react-icons/go"
+import { GoPencil, GoEye, GoTrash } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listArticles, supprimArticle } from "../api/articles";
@@ -70,7 +70,9 @@ const AccueilAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {articles.length === 0 ? (
+              {articles === null ? (
+                window.location.reload()
+              ) : articles.length === 0 ? (
                 <tr>
                   <td
                     colSpan={4}
@@ -93,7 +95,7 @@ const AccueilAdmin = () => {
                         <small>{art.User}</small>
                       </td>
                       <td className="actions_articles">
-                        <Link to={`details-admin/${art.idArticle}`}>
+                        <Link to={`article/${art.idArticle}`}>
                           <GoEye style={{ color: "gray" }} />
                         </Link>
                         <Link to={`modif-article/${art.idArticle}`}>

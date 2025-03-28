@@ -3,7 +3,7 @@ import { backend } from "../Composants/backend";
 import { isEmpty } from "../Composants/testVide";
 import { useQuery } from "@tanstack/react-query";
 import { listFormations } from "../api/formations";
-
+import { MoonLoader } from "react-spinners";
 const Formations = () => {
   const {
     data: formations,
@@ -14,7 +14,12 @@ const Formations = () => {
     queryFn: listFormations,
   });
 
-  if (isLoading) return <div>Chargement</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (error) return <div>Erreur de chargement des données</div>;
 
   return (

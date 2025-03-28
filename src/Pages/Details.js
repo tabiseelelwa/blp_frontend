@@ -4,6 +4,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { detailsArticle } from "../api/articles";
 import { backend } from "../Composants/backend";
+import { MoonLoader } from "react-spinners";
 
 const Details = () => {
   const { idArticle } = useParams();
@@ -17,7 +18,12 @@ const Details = () => {
     queryFn: () => detailsArticle(idArticle),
   });
 
-  if (isLoading) return <div>Chargement</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (error) return <div>Erreur de chargement des données</div>;
 
   return (

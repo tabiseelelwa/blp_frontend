@@ -1,13 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { detailsUser, modifUser } from "../../api/users";
 
 const ModifUser = () => {
   const { idUser } = useParams();
   const navigate = useNavigate();
-  const backend = "http://localhost:8085";
+  const queryClient = useQueryClient();
+
+  const { data: user } = useQuery({
+    queryKey: ["utilisateur", idUser],
+    queryFn: () => detailsUser(idUser),
+  });
+
   const [values, setValues] = useState({
     nom: "",
     postnom: "",
@@ -16,34 +23,33 @@ const ModifUser = () => {
   });
 
   useEffect(() => {
-    axios
-      .get(`${backend}/user/${idUser}`)
-      .then((res) => {
-        setValues({
-          ...values,
-          nom: res.data[0].nomUser,
-          postnom: res.data[0].postnomUser,
-          prenom: res.data[0].prenomUser,
-          email: res.data[0].email,
-        });
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (user) {
+      setValues({
+        ...values,
+        nom: user.nomUser,
+        postnom: user.postnomUser,
+        prenom: user.prenomUser,
+        email: user.email,
+      });
+    }
+  }, [user]);
 
-  const modifUser = (e) => {
+  const mutationModifUser = useMutation({
+    mutationFn: () => modifUser(idUser, values),
+    onSuccess: () => {
+      queryClient.invalidateQueries("utilisateur");
+    },
+  });
+
+  const ModifUser = (e) => {
     e.preventDefault();
-    axios
-      .put(`${backend}/modifUser/${idUser}`, values)
-      .then((res) => {
-        console.log(res);
-        navigate("/admin/list-users");
-      })
-      .catch((err) => console.log(err));
+    mutationModifUser.mutate(values);
+    navigate("/admin/list-users");
   };
   return (
     <div>
       <div className="element_admin form ">
-        <form onSubmit={modifUser}>
+        <form onSubmit={ModifUser}>
           <h3>Modifier l'utilisateur</h3>
           <input
             type="text"

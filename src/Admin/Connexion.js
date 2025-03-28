@@ -64,7 +64,7 @@ const Login = () => {
             style={{
               backgroundColor: "#dba5a5",
               color: "#800707",
-              padding: "0.5rem",
+              padding: "0.5rem"
             }}
           >
             {message} !

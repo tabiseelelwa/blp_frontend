@@ -139,6 +139,7 @@ const router = createBrowserRouter([
         path: "about_modif/:idAbout",
         element: <ModifAbout />,
       },
+      { path: "article/:idArticle", element: <Details /> },
       {
         path: "config",
         element: <Parametres />,

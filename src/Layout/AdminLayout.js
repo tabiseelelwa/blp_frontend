@@ -6,18 +6,15 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { authentification } from "../api/login";
 
-// AFFICHAGE DE L'ADMINISTRATEUR
-
 const AdminLayout = () => {
   const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
-  // console.log(url);
 
   const [nom, setNom] = useState("");
+
   // Vérification de l'existence du token.
   // Si celle-ci n'existe pas, l'utilisateur est reconduit à la page de connexion
-
   const { data: user, isError } = useQuery({
     queryKey: ["login"],
     queryFn: authentification,
@@ -27,15 +24,15 @@ const AdminLayout = () => {
     if (user) {
       if (user.Login === true) {
         setNom(user.nom);
+        navigate("/admin");
+      } else {
+        navigate("/login");
       }
-    } else {
-      navigate("/login");
     }
   }, [user]);
 
-  if (isError) {
-    console.error(user.error);
-  }
+  if (isError) return <div>Erreur de connexion</div>;
+
   return (
     <div className="admin">
       <SideBar className="sidebar" />

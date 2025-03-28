@@ -22,6 +22,7 @@ const Users = () => {
 
   const supprimer = (idUser) => {
     mutationSupprUser.mutate(idUser);
+    console.log(idUser)
   };
 
   const {

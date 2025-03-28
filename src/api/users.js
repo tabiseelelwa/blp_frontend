@@ -28,10 +28,10 @@ export const detailsUser = async (idUser) => {
   }
 };
 
-export const modifUser = async (idAnnonce, values) => {
+export const modifUser = async (idUser, values) => {
   try {
     const response = await axios.put(
-      `${backend}/api/modifUser/${idAnnonce}`,
+      `${backend}/api/modifUser/${idUser}`,
       values
     );
     return response.data;
