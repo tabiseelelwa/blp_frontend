@@ -70,7 +70,7 @@ const AccueilAdmin = () => {
               </tr>
             </thead>
             <tbody>
-              {articles === null ? (
+              {articles === undefined ? (
                 window.location.reload()
               ) : articles.length === 0 ? (
                 <tr>
