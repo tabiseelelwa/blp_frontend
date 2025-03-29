@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listUsers, supprimUser } from "../../api/users";
 import { backend } from "../../Composants/backend";
+import { MoonLoader } from "react-spinners";
 
 const Users = () => {
   const queryClient = useQueryClient();
@@ -34,7 +35,11 @@ const Users = () => {
     queryFn: listUsers,
   });
 
-  if (isLoading) return <div>Chargement ...</div>;
+  if (isLoading) return(
+    <div className="spinner">
+      <MoonLoader size={120} color="#fff" />
+    </div>
+  );
   if (isError) return <div>Erreur de chargment</div>;
 
   return (

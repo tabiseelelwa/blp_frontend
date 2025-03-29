@@ -4,6 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { detailsFormation, modifFormation } from "../../api/formations";
+import { MoonLoader } from "react-spinners";
 
 const ModifForm = () => {
   const navigate = useNavigate();
@@ -69,7 +70,12 @@ const ModifForm = () => {
     ],
   };
 
-  if (isLoading) return <div>Chargement</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (isError) return <div>Erreur de chargement des données....</div>;
 
   return (

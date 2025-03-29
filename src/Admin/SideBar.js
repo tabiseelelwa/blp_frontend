@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { loginDeconnexion } from "../api/login";
 import { nonReadMessages } from "../api/message";
+import { MoonLoader } from "react-spinners";
 
 export default function SideBar() {
   const queryClient = useQueryClient();
@@ -35,7 +36,12 @@ export default function SideBar() {
   };
 
   if (isError) return <div>Erreur de chargement</div>;
-  if (isLoading) return <div>Chargement en cours</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   return (
     <aside>
       <div className="head-sidebar">

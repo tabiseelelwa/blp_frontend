@@ -8,6 +8,7 @@ import {
   supprimMessage,
   totalMessages,
 } from "../../api/message";
+import { MoonLoader } from "react-spinners";
 
 const Messages = () => {
   const queryClient = useQueryClient();
@@ -59,7 +60,12 @@ const Messages = () => {
     mutationSuppimer.mutate(idMessage);
   };
 
-  if (isLoading) return <div>Chargement en cour</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (isError) return <div>Erreur de chargement</div>;
   return (
     <div className="">

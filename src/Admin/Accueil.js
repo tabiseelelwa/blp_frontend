@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listArticles, supprimArticle } from "../api/articles";
 import axios from "axios";
+import { MoonLoader } from "react-spinners";
 
 const AccueilAdmin = () => {
   const queryClient = useQueryClient();
@@ -35,7 +36,12 @@ const AccueilAdmin = () => {
     mutationSupprArticle.mutate(idArticle);
   };
 
-  if (isLoading) return <div>Loading ...</div>;
+  if (isLoading)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (isError) return <div>Erreur de chargment</div>;
 
   return (

@@ -5,6 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { detailsAbout, modifAbout } from "../../api/about";
+import { MoonLoader } from "react-spinners";
 const ModifAbout = () => {
   const navigate = useNavigate();
   const { idAbout } = useParams();
@@ -61,7 +62,11 @@ const ModifAbout = () => {
     ],
   };
 
-  if (isLoading) return <div>Chargement en cours</div>;
+  if (isLoading) return (
+    <div className="spinner">
+      <MoonLoader size={120} color="#fff" />
+    </div>
+  );
   if (isError) return <div>Erreur de chargement</div>;
 
   return (

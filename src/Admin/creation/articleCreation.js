@@ -7,6 +7,7 @@ import "react-quill/dist/quill.snow.css";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createArticle } from "../../api/articles";
 import { listCategories } from "../../api/categories";
+import { MoonLoader } from "react-spinners";
 
 const Article = () => {
   const navigate = useNavigate();
@@ -70,7 +71,12 @@ const Article = () => {
     ],
   };
 
-  if (chargement) return <div>Chargement</div>;
+  if (chargement)
+    return (
+      <div className="spinner">
+        <MoonLoader size={120} color="#fff" />
+      </div>
+    );
   if (erreur) return <div>Erreur de chargement</div>;
   return (
     <div className="redaction">

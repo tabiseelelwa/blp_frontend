@@ -4,6 +4,7 @@ import { GoPencil, GoTrash, GoPerson, GoImage } from "react-icons/go";
 import { Link } from "react-router-dom";
 import { listFormations, supprimFormation } from "../../api/formations";
 import { backend } from "../../Composants/backend";
+import { MoonLoader } from "react-spinners";
 
 const AdminListFormation = () => {
   const queryClient = useQueryClient();
@@ -31,7 +32,11 @@ const AdminListFormation = () => {
     queryFn: listFormations,
   });
 
-  if (isLoading) return <div>Chargement en cours</div>;
+  if (isLoading) return (
+    <div className="spinner">
+      <MoonLoader size={120} color="#fff" />
+    </div>
+  );
   if (isError) return <div>Erreur de chargement de données.....</div>;
 
   return (
