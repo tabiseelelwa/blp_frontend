@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { listAnnonces } from "../api/articles";
 const Swipper = () => {
   const {
-    data: annonces,
+    data: annonces = [],
     isLoading,
     isError,
   } = useQuery({
@@ -27,9 +27,8 @@ const Swipper = () => {
         disableOnInteraction: false,
       }}
     >
-      {annonces === undefined
-        ? window.location.reload()
-        : annonces.map((annonce, i) => {
+      {Array.isArray(annonces)
+        ? annonces.map((annonce, i) => {
             return (
               <SwiperSlide className="swiper-slide">
                 <div
@@ -53,7 +52,8 @@ const Swipper = () => {
                 </div>
               </SwiperSlide>
             );
-          })}
+          })
+        : ""}
     </Swiper>
   );
 };

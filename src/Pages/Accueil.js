@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Link } from "react-router-dom";
 import { isEmpty } from "../Composants/testVide";
-import Articles from "./Articles";
 import Contacts from "./Contacts";
 import Swipper from "./Swipper";
 import { useQuery } from "@tanstack/react-query";
 import { listArticles } from "../api/articles";
 import { MoonLoader } from "react-spinners";
+import { backend } from "../Composants/backend";
 
 const Accueil = () => {
   const {
-    data: articles,
+    data: articles = [],
     isLoading,
     error,
   } = useQuery({
@@ -18,7 +18,7 @@ const Accueil = () => {
     queryFn: listArticles,
     refetchOnWindowFocus: true,
   });
-
+  console.log(articles);
   if (isLoading)
     return (
       <div className="spinner">
@@ -39,11 +39,44 @@ const Accueil = () => {
         {/* Les actualités */}
 
         <div className="articles">
-          {articles === undefined || articles === 0
-            ? window.location.reload()
-            : articles.map((art, i) => {
-                return <Articles article={art} key={i} />;
-              })}
+          {Array.isArray(articles) ? (
+            articles.map((art, i) => {
+              return (
+                <article key={i}>
+                  <Link to={`/article/${art.idArticle}`}>
+                    <div className="img_article">
+                      <img
+                        src={`${backend}/images-article/${art.imageArticle}`}
+                        alt=""
+                      />
+                    </div>
+                    <div className="texte_article">
+                      <h5 className="titre_article">
+                        {art.titreArticle.length > 60
+                          ? art.titreArticle.substring(0, 60) + "..."
+                          : art.titreArticle}
+                      </h5>
+                      <div className="contenu_article">
+                        {art.contenu.length > 120 ? (
+                          <div
+                            dangerouslySetInnerHTML={{
+                              __html: art.contenu.substring(0, 120) + "...",
+                            }}
+                          />
+                        ) : (
+                          <div
+                            dangerouslySetInnerHTML={{ __html: art.contenu }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </article>
+              );
+            })
+          ) : (
+            <p>Aucun article disponible</p>
+          )}
         </div>
 
         {/* Affichage de tous les articles */}
